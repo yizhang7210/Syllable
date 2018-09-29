@@ -25,3 +25,6 @@ balance. Meanwhile, the said SOP will belong to the owner permanently.
 
 ### What's the point?
 Try to earn as many RINs and own as many correct predictions as possible.
+
+### Further Reading
+See the [Resources](./RESOURCES.md) document.
