@@ -1,13 +1,10 @@
 package com.syllable.exchange.dtos;
 
 
-import org.springframework.data.annotation.Id;
-
 import java.util.Date;
 
 
 public class PredictionDto {
-    @Id
     private String id;
 
     private String title;
