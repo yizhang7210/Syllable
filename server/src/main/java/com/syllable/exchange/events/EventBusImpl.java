@@ -1,5 +1,6 @@
 package com.syllable.exchange.events;
 
+import com.syllable.exchange.models.ExchangeEvent;
 import org.springframework.stereotype.Component;
 
 @Component

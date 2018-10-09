@@ -1,4 +1,4 @@
-package com.syllable.exchange.events;
+package com.syllable.exchange.models;
 
 public enum  EventTarget {
     PREDICTION

@@ -2,8 +2,8 @@ package com.syllable.exchange.commands;
 
 import com.syllable.exchange.dtos.PredictionDto;
 import com.syllable.exchange.events.EventBus;
-import com.syllable.exchange.events.EventDao;
-import com.syllable.exchange.events.PredictionCreated;
+import com.syllable.exchange.daos.EventDao;
+import com.syllable.exchange.models.PredictionCreated;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

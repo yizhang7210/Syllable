@@ -1,4 +1,4 @@
-package com.syllable.exchange.events;
+package com.syllable.exchange.models;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.data.annotation.Id;
