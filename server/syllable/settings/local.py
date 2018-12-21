@@ -6,6 +6,7 @@ DEBUG = env.bool('DJANGO_DEBUG', default=True)
 
 DATABASES = {
     'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'syllable',
         'USER': 'syllableuser',
         'PASSWORD': 'syllabledb',

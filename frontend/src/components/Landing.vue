@@ -20,7 +20,6 @@ export default {
   methods: {
     onSignIn(googleUser) {
       var profile = googleUser.getBasicProfile();
-      this.$forceUpdate();
       console.log('auth response: ' + googleUser.getAuthResponse().id_token);
       console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
       console.log('Name: ' + profile.getName());
@@ -28,6 +27,7 @@ export default {
       console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
       this.userName = '(' + profile.getName() + ')';
       console.log(this.userName);
+      this.$forceUpdate();
 
     },
     onSignOut(googleUser) {

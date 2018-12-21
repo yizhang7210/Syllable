@@ -3,12 +3,13 @@ import os
 
 DATABASES = {
     'default': {
-        'NAME': os.environ['DB_NAME'],
-        'HOST': os.environ['HOSTNAME'],
-        'PORT': os.environ['PORT'],
-        'USER': os.environ['USERNAME'],
-        'PASSWORD': os.environ['PASSWORD'],
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': os.environ['RDS_DB_NAME'],
+        'HOST': os.environ['RDS_HOSTNAME'],
+        'PORT': os.environ['RDS_PORT'],
+        'USER': os.environ['RDS_USERNAME'],
+        'PASSWORD': os.environ['RDS_PASSWORD'],
     }
-}
+
 
 ALLOWED_HOSTS = [".us-east-2.elasticbeanstalk.com", "localhost"]

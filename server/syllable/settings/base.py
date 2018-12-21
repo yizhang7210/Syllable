@@ -56,6 +56,7 @@ THIRD_PARTY_APPS = (
 )
 
 LOCAL_APPS = (
+    'api',
 )
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
@@ -97,11 +98,7 @@ WSGI_APPLICATION = 'syllable.wsgi.application'
 
 DATABASES = {
     'default': {
-        'NAME': '',
-        'HOST': '',
-        'PORT': '',
-        'USER': '',
-        'PASSWORD': '',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
     }
 }
 
