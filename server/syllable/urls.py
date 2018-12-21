@@ -13,9 +13,15 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.contrib import admin
-from django.urls import path
+from api.views import users as users_view
+from django.urls import include, path
+from rest_framework_swagger.views import get_swagger_view
+
+api_v1_patterns = [
+    path('docs/', get_swagger_view(title='Syllable API')),
+    path('users/signin', users_view.UserAuthView.as_view()),
+]
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('v1/', include(api_v1_patterns)),
 ]
