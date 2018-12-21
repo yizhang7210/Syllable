@@ -1,0 +1,11 @@
+version: "3"
+services:
+
+  db:
+    image: postgres:11.1
+    ports:
+    - "5432:5432"
+    environment:
+      POSTGRES_DB: syllable
+      POSTGRES_USER: syllableuser
+      POSTGRES_PASSWORD: syllablepw
