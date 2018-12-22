@@ -7,10 +7,13 @@
 </template>
 
 <script>
+import axios from 'axios';
+const SERVER_URL = 'http://localhost:8000/'
+
 export default {
   name: 'Landing',
   data: () => ({
-      userName: ''
+      userName: '',
   }),
   mounted() {
     gapi.signin2.render('gSignIn', {
@@ -20,15 +23,14 @@ export default {
   methods: {
     onSignIn(googleUser) {
       var profile = googleUser.getBasicProfile();
-      console.log('auth response: ' + googleUser.getAuthResponse().id_token);
-      console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
-      console.log('Name: ' + profile.getName());
-      console.log('Image URL: ' + profile.getImageUrl());
-      console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
-      this.userName = '(' + profile.getName() + ')';
-      console.log(this.userName);
+      axios.post(SERVER_URL+ 'v1/users/signin', {
+        name: profile.getName(),
+        email: profile.getEmail(),
+        token: googleUser.getAuthResponse().id_token,
+      }).then((response) => {
+        this.userName = '(' + profile.getName() + ')';
+      });
       this.$forceUpdate();
-
     },
     onSignOut(googleUser) {
       var auth2 = gapi.auth2.getAuthInstance();
