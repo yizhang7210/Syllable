@@ -9,12 +9,13 @@ class UserAuthView(CreateAPIView):
     serializer_class = LoginSerializer
 
     def post(self, request, *args, **kwargs):
-        user_id = user_service.process_sign_in(
-            request.data['name'],
+        is_successful = user_service.process_sign_in(
+            request.data['familyName'],
+            request.data['givenName'],
             request.data['email'],
             request.data['token']
         )
-        if user_id:
+        if is_successful:
             return Response("success")
 
         return Response("failed", status=status.HTTP_401_UNAUTHORIZED)
