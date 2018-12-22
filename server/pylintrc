@@ -6,3 +6,6 @@ good-names = logger, i, _, o, h, l, c, oc, t, do
 
 [SIMILARITIES]
 min-similarity-lines = 10
+
+[MESSAGES CONTROL]
+disable=missing-docstring
