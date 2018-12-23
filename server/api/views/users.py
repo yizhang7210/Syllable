@@ -10,8 +10,8 @@ class UserAuthView(CreateAPIView):
 
     def post(self, request, *args, **kwargs):
         is_successful = user_service.process_sign_in(
-            request.data['familyName'],
-            request.data['givenName'],
+            request.data['family_name'],
+            request.data['given_name'],
             request.data['email'],
             request.data['token']
         )

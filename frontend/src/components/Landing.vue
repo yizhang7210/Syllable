@@ -3,7 +3,7 @@
     <h1>Welcome to Syllable</h1>
     <div id="gSignIn" class="g-signin2" data-onsuccess="onSignIn"></div>
     <button v-if="userName" class="g-signout" v-on:click="onSignOut">
-      Sign out of {{ this.userName }}
+      Sign out of </br> {{ this.userName }}
     </button>
   </div>
 </template>
@@ -23,24 +23,21 @@ export default {
     })
   },
   methods: {
-    onSignIn(googleUser) {
+    onSignIn: async function(googleUser) {
       var profile = googleUser.getBasicProfile();
-      axios.post(SERVER_URL+ 'v1/users/signin', {
-        familyName: profile.getFamilyName(),
-        givenName: profile.getGivenName(),
+      let response = await axios.post(SERVER_URL+ 'v1/users/signin', {
+        family_name: profile.getFamilyName(),
+        given_name: profile.getGivenName(),
         email: profile.getEmail(),
         token: googleUser.getAuthResponse().id_token,
-      }).then((response) => {
-        this.userName = profile.getGivenName();
-      });
+      })
+      this.userName = profile.getName();
       this.$forceUpdate();
     },
-    onSignOut(googleUser) {
+    onSignOut: async function(googleUser) {
       var auth2 = gapi.auth2.getAuthInstance();
-      auth2.signOut().then(() => {
-        this.userName = null;
-        this.$forceUpdate();
-      });
+      await auth2.signOut();
+      this.userName = null;
     },
   }
 }
