@@ -25,14 +25,14 @@ export default {
   methods: {
     onSignIn: async function(googleUser) {
       var profile = googleUser.getBasicProfile();
-      let response = await axios.post(SERVER_URL+ 'v1/users/signin', {
+      let response = await axios.post(SERVER_URL+ 'v1/users/signin/google', {
         family_name: profile.getFamilyName(),
         given_name: profile.getGivenName(),
         email: profile.getEmail(),
         token: googleUser.getAuthResponse().id_token,
-      })
+      });
+      this.$store.commit('updateUserToken', response.data.token);
       this.userName = profile.getName();
-      this.$forceUpdate();
     },
     onSignOut: async function(googleUser) {
       var auth2 = gapi.auth2.getAuthInstance();

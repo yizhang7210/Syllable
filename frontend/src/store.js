@@ -8,7 +8,7 @@ export default new Vuex.Store({
 		userToken: ""
 	},
 	mutations: {
-		onUserLoggedIn(state, userToken) {
+		updateUserToken(state, userToken) {
 			state.userToken = userToken
 		}
 	}

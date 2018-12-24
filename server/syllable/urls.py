@@ -13,13 +13,13 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from api.views import users as users_view
+from api.views import users as user_views
 from django.urls import include, path
 from rest_framework_swagger.views import get_swagger_view
 
 api_v1_patterns = [
     path('docs/', get_swagger_view(title='Syllable API')),
-    path('users/signin', users_view.UserAuthView.as_view()),
+    path('users/signin/google', user_views.GoogleSignInView.as_view()),
 ]
 
 urlpatterns = [
