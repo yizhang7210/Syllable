@@ -2,7 +2,7 @@ import jwt
 from google.oauth2 import id_token
 from google.auth.transport import requests
 
-from api.models import users
+from users.models import users
 
 CLIENT_ID = "524164616554-qmh6kkofkqi3lg9873npjv0hgar04gft.apps.googleusercontent.com"
 SECRET = 'syllable_secret'
