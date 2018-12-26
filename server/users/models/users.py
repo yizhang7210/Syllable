@@ -2,7 +2,7 @@ from django.db import models
 from django.core.exceptions import ObjectDoesNotExist
 
 class User(models.Model):
-    email = models.CharField(max_length=50, unique=True, primary_key=True)
+    email = models.EmailField(max_length=50, unique=True, primary_key=True)
     family_name = models.CharField(max_length=100)
     given_name = models.CharField(max_length=100)
     created_at = models.DateTimeField(auto_now_add=True)
