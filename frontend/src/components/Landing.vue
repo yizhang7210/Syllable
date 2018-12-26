@@ -3,7 +3,7 @@
     <h1>Welcome to Syllable</h1>
     <div id="gSignIn" class="g-signin2" data-onsuccess="onSignIn"></div>
     <button v-if="userName" class="g-signout" v-on:click="onSignOut">
-      Sign out of </br> {{ this.userName }}
+      Sign out of <br/> {{ this.userName }}
     </button>
   </div>
 </template>
@@ -34,7 +34,7 @@ export default {
       this.$store.commit('updateUserToken', response.data.token);
       this.userName = profile.getName();
     },
-    onSignOut: async function(googleUser) {
+    onSignOut: async function() {
       var auth2 = gapi.auth2.getAuthInstance();
       await auth2.signOut();
       this.userName = null;

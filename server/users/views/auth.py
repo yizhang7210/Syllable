@@ -7,7 +7,6 @@ from users.services import auth as auth_service
 class GoogleSignInView(CreateAPIView):
 
     serializer_class = GoogleSignInSerializer
-    authentication_classes = ()
 
     def post(self, request, *args, **kwargs):
         jwt_token = auth_service.sign_in_with_google(
