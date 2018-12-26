@@ -14,12 +14,14 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from api.views import users as user_views
+from api.views import grips as grip_views
 from django.urls import include, path
 from rest_framework_swagger.views import get_swagger_view
 
 api_v1_patterns = [
     path('docs/', get_swagger_view(title='Syllable API')),
     path('users/signin/google', user_views.GoogleSignInView.as_view()),
+    path('grips/', grip_views.GripsView.as_view()),
 ]
 
 urlpatterns = [
