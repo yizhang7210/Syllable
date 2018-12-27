@@ -1,5 +1,5 @@
 <template>
-  <div class="landing">
+  <div class="grip">
     <h1>Welcome to Syllable</h1>
     <div id="gSignIn" class="g-signin2" data-onsuccess="onSignIn"></div>
     <button v-if="userName" class="g-signout" v-on:click="onSignOut">
@@ -33,7 +33,6 @@ export default {
       });
       this.$store.commit('updateUserToken', response.data.token);
       this.userName = profile.getName();
-      this.$router.push('/home');
     },
     onSignOut: async function() {
       var auth2 = gapi.auth2.getAuthInstance();
