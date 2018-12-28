@@ -1,17 +1,19 @@
 <template>
   <div class="grip">
-    <h1>Welcome to Syllable</h1>
+    <h3>{{ title }}</h3>
+    <span>{{ content }}</span>
   </div>
 </template>
 
 <script>
-import axios from 'axios';
-const SERVER_URL = 'http://localhost:8000/'
-
 export default {
   name: 'Landing',
   data: () => ({
   }),
+  props: [
+    'title',
+    'content',
+  ],
   mounted() {
   },
   methods: {

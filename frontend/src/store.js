@@ -5,7 +5,8 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
 	state: {
-		currentUser: {}
+		currentUser: {},
+		serverUrl: 'http://localhost:8000/',
 	},
 	mutations: {
 		updateUser(state, userObject) {
