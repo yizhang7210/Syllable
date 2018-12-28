@@ -2,21 +2,16 @@
   <div class="landing">
     <h1>Welcome to Syllable</h1>
     <div id="gSignIn" class="g-signin2" data-onsuccess="onSignIn"></div>
-    <button v-if="userName" class="g-signout" v-on:click="onSignOut">
-      Sign out of <br/> {{ this.userName }}
-    </button>
   </div>
 </template>
 
 <script>
+/* global gapi:false */
 import axios from 'axios';
 const SERVER_URL = 'http://localhost:8000/'
 
 export default {
   name: 'Landing',
-  data: () => ({
-      userName: null,
-  }),
   mounted() {
     gapi.signin2.render('gSignIn', {
       onsuccess: this.onSignIn
@@ -31,14 +26,11 @@ export default {
         email: profile.getEmail(),
         token: googleUser.getAuthResponse().id_token,
       });
-      this.$store.commit('updateUserToken', response.data.token);
-      this.userName = profile.getName();
+      this.$store.commit('updateUser', {
+        token: response.data.token,
+        name: profile.getGivenName()
+      });
       this.$router.push('/home');
-    },
-    onSignOut: async function() {
-      var auth2 = gapi.auth2.getAuthInstance();
-      await auth2.signOut();
-      this.userName = null;
     },
   }
 }
