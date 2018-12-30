@@ -29,9 +29,8 @@ export default {
 </script>
 <style scoped>
 .main-nav {
-  position: absolute;
-  top: 0;
-  left: 0;
+  display: flex;
+  align-self: flex-start;
 }
 .g-signout {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;

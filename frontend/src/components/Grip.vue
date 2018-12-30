@@ -1,7 +1,7 @@
 <template>
   <div class="grip">
-    <h3>{{ title }}</h3>
-    <span>{{ content }}</span>
+    <span class="title">{{ title }}</span>
+    <span class="content">{{ content }}</span>
   </div>
 </template>
 
@@ -21,12 +21,19 @@ export default {
 }
 </script>
 <style scoped>
-.g-signout {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  font-size: 16px;
-  margin-top: 20px;
-  border-width: 0;
-  width: 120px;
-  height: 40px;
+.grip {
+  display: flex;
+  flex-direction: column;
+  border-radius: 5px;
+  border-width: 1px;
+  border-style: solid;
+  border-color: black;
+  padding: 5px;
+  width: 250px;
+  height: 250px;
+  margin: 10px;
+}
+.title {
+  font-weight: bold;
 }
 </style>

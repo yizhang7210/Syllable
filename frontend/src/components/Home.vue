@@ -1,12 +1,13 @@
 <template>
   <div class="home">
     <MainNav/>
-    <h1>Get a Grip!</h1>
-    <div v-for="grip in grips" :key="grip.id">
-      <Grip
-        :title="grip.title"
-        :content="grip.content">
-      </Grip>
+    <div class="grip-container">
+      <div v-for="grip in grips" :key="grip.id">
+        <Grip
+          :title="grip.title"
+          :content="grip.content">
+        </Grip>
+      </div>
     </div>
   </div>
 </template>
@@ -45,5 +46,16 @@ export default {
 }
 </script>
 <style scoped>
-
+.home {
+  display: flex;
+  flex-direction: row;
+  flex: 1;
+  align-items: center;
+}
+.grip-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  flex: 1;
+}
 </style>

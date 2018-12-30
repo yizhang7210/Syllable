@@ -13,7 +13,7 @@ export default {
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  flex: 1;
+  flex-direction: row;
 }
 </style>

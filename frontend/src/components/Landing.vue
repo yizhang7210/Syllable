@@ -41,12 +41,4 @@ export default {
   align-items: center;
   margin-top: 100px;
 }
-.g-signout {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  font-size: 16px;
-  margin-top: 20px;
-  border-width: 0;
-  width: 120px;
-  height: 40px;
-}
 </style>
