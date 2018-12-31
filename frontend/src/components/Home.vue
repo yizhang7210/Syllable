@@ -1,26 +1,22 @@
 <template>
   <div class="home">
     <MainNav/>
-    <div class="grip-container">
-      <div v-for="grip in grips" :key="grip.id">
-        <Grip
-          :title="grip.title"
-          :content="grip.content">
-        </Grip>
-      </div>
-    </div>
+    <GripGrid :grips="grips"/>
+    <GripFeed :grips="grips"/>
   </div>
 </template>
 
 <script>
 import axios from 'axios';
-import Grip from './Grip'
+import GripFeed from './grips/GripFeed'
+import GripGrid from './grips/GripGrid'
 import MainNav from './MainNav'
 
 export default {
   name: 'Home',
   components: {
-    Grip,
+    GripFeed,
+    GripGrid,
     MainNav,
   },
   data: () => ({
@@ -51,11 +47,5 @@ export default {
   flex-direction: row;
   flex: 1;
   align-items: center;
-}
-.grip-container {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  flex: 1;
 }
 </style>

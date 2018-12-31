@@ -26,8 +26,9 @@ export default {
         token: googleUser.getAuthResponse().id_token,
       });
       this.$store.commit('updateUser', {
+        email: profile.getEmail(),
+        name: profile.getGivenName(),
         token: response.data.token,
-        name: profile.getGivenName()
       });
       this.$router.push('/home');
     },
