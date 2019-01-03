@@ -22,6 +22,7 @@ api_v1_patterns = [
     path('docs/', get_swagger_view(title='Syllable API')),
     path('users/signin/google', user_views.GoogleSignInView.as_view()),
     path('grips', grip_views.GripsView.as_view()),
+    path('grips/<int:id>', grip_views.GripView.as_view()),
 ]
 
 urlpatterns = [
