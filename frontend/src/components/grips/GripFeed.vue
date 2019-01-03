@@ -2,10 +2,7 @@
   <div class="grip-container">
     <GripInput/>
     <div v-for="grip in grips" :key="grip.id">
-      <Grip
-        :title="grip.title"
-        :content="grip.content">
-      </Grip>
+      <Grip :grip="grip" />
     </div>
   </div>
 </template>

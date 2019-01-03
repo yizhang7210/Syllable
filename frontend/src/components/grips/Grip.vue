@@ -1,22 +1,35 @@
 <template>
   <div class="grip">
-    <span class="title">{{ title }}</span>
-    <span class="content">{{ content }}</span>
+    <div class="title-line">
+      <div class="title">{{ grip.title }}</div>
+      <div class="cross" v-on:click="this.onDelete"> x </div>
+    </div>
+    <span class="content">{{ grip.content }}</span>
   </div>
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
   name: 'Landing',
   data: () => ({
   }),
   props: [
-    'title',
-    'content',
+    'grip',
   ],
   mounted() {
   },
   methods: {
+    onDelete: async function() {
+      const uri = this.$store.state.serverUrl + 'v1/grips/' + this.grip.id;
+      const response = await axios.delete(uri, {
+        headers: {
+          Authorization: 'Bearer ' + this.$store.state.currentUser.token,
+        }
+      });
+      this.$router.go();
+    }
   }
 }
 </script>
@@ -33,8 +46,13 @@ export default {
   border-style: solid;
   border-color: black;
 }
-.title {
+.title-line {
+  display: flex;
+  justify-content: space-between;
   font-weight: bold;
+}
+.cross {
+  cursor: pointer;
 }
 .content {
   display: flex;

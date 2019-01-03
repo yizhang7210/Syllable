@@ -1,11 +1,7 @@
 <template>
   <div class="grip-container">
     <div v-for="grip in grips" :key="grip.id">
-      <Grip
-        :title="grip.title"
-        :content="grip.content"
-        :isReadOnly="false">
-      </Grip>
+      <Grip :grip="grip"/>
     </div>
   </div>
 </template>
