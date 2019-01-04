@@ -1,13 +1,12 @@
 <template>
   <div class="home">
     <MainNav/>
-    <GripGrid :grips="grips"/>
-    <GripFeed :grips="grips"/>
+    <GripGrid :grips="this.$store.state.gripsOnGrid"/>
+    <GripFeed :grips="this.$store.state.gripsOnGrid"/>
   </div>
 </template>
 
 <script>
-import axios from 'axios';
 import GripFeed from './grips/GripFeed'
 import GripGrid from './grips/GripGrid'
 import MainNav from './MainNav'
@@ -27,18 +26,8 @@ export default {
       this.$router.push('/landing');
       return;
     }
-    this.initGrips();
+    this.$store.commit('fetchGrips');
   },
-  methods: {
-    initGrips: async function() {
-      const response = await axios.get(this.$store.state.serverUrl + 'v1/grips', {
-        headers: {
-          Authorization: 'Bearer ' + this.$store.state.currentUser.token,
-        }
-      });
-      this.grips = response.data;
-    }
-  }
 }
 </script>
 <style scoped>

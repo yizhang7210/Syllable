@@ -38,7 +38,7 @@ export default {
       }
 
       this.isDisabled = true;
-      const response = await axios.post(this.$store.state.serverUrl + 'v1/grips', {
+      await axios.post(this.$store.state.serverUrl + 'v1/grips', {
         title: this.title,
         content: this.content,
         created_by: this.$store.state.currentUser.email
@@ -48,7 +48,7 @@ export default {
         }
       });
       this.isDisabled = false;
-      this.$router.go();
+      this.$store.commit('fetchGrips');
     }
   }
 }

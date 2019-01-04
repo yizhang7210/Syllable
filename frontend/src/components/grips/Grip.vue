@@ -23,12 +23,12 @@ export default {
   methods: {
     onDelete: async function() {
       const uri = this.$store.state.serverUrl + 'v1/grips/' + this.grip.id;
-      const response = await axios.delete(uri, {
+      await axios.delete(uri, {
         headers: {
           Authorization: 'Bearer ' + this.$store.state.currentUser.token,
         }
       });
-      this.$router.go();
+      this.$store.commit('fetchGrips');
     }
   }
 }
