@@ -4,7 +4,7 @@
       <div class="title">{{ grip.title }}</div>
       <div class="cross" v-on:click="this.onDelete"> x </div>
     </div>
-    <span class="content">{{ grip.content }}</span>
+    <div class="content">{{ grip.content }}</div>
   </div>
 </template>
 
@@ -18,8 +18,6 @@ export default {
   props: [
     'grip',
   ],
-  mounted() {
-  },
   methods: {
     onDelete: async function() {
       const uri = this.$store.state.serverUrl + 'v1/grips/' + this.grip.id;
@@ -57,5 +55,6 @@ export default {
 .content {
   display: flex;
   flex: 1;
+  white-space: pre;
 }
 </style>
