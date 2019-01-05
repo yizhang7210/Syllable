@@ -50,7 +50,7 @@ export default {
       this.title = '';
       this.content = '';
       this.isDisabled = false;
-      this.$store.commit('fetchGrips');
+      this.$store.commit('fetchAllGrips');
     }
   }
 }

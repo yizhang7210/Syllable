@@ -28,7 +28,7 @@ export default {
       this.$router.push('/landing');
       return;
     }
-    this.$store.commit('fetchGrips');
+    this.$store.commit('fetchAllGrips');
   },
 }
 </script>

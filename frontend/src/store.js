@@ -14,8 +14,22 @@ export default new Vuex.Store({
 		updateUser(state, userObject) {
 			state.currentUser = userObject
 		},
-		async fetchGrips(state) {
+		async fetchAllGrips(state) {
 			const response = await axios.get(state.serverUrl + 'v1/grips', {
+				headers: {
+					Authorization: 'Bearer ' + state.currentUser.token,
+				}
+			});
+			if (response.status === 200) {
+				state.gripsOnGrid = response.data;
+				return;
+			}
+
+			state.gripsOnGrid = [];
+    },
+		async searchGrips(state, searchTerm) {
+			const searchUrl = state.serverUrl + 'v1/grips/search?q=' + searchTerm
+			const response = await axios.get(searchUrl, {
 				headers: {
 					Authorization: 'Bearer ' + state.currentUser.token,
 				}

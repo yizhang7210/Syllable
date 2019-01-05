@@ -2,8 +2,8 @@
   <div class="grip-grid">
     <b-form-input
       class="search"
-      v-model="searchTerm"
       type="text"
+      @input="this.onSearchInput"
       placeholder="Search">
     </b-form-input>
     <div class="grip-container">
@@ -22,12 +22,18 @@ export default {
   components: {
     Grip,
   },
-  data: () => ({
-    searchTerm: '',
-  }),
   props: [
     'grips',
   ],
+  methods: {
+    onSearchInput: function(value) {
+      if (!value) {
+        this.$store.commit('fetchAllGrips', value);
+        return;
+      }
+      this.$store.commit('searchGrips', value);
+    }
+  }
 }
 </script>
 <style scoped>

@@ -26,7 +26,7 @@ export default {
           Authorization: 'Bearer ' + this.$store.state.currentUser.token,
         }
       });
-      this.$store.commit('fetchGrips');
+      this.$store.commit('fetchAllGrips');
     }
   }
 }
