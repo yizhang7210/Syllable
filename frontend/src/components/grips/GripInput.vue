@@ -66,7 +66,7 @@ export default {
 .title {
   display: flex;
   font-weight: bold;
-  margin-bottom: 5px;
+  margin-bottom: 10px;
 }
 .content {
   display: flex;

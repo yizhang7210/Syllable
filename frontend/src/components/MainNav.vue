@@ -24,6 +24,7 @@ export default {
 <style scoped>
 .main-nav {
   display: flex;
+  background-color: #008CBA !important;
 }
 .g-signout {
   display: flex;
@@ -32,7 +33,7 @@ export default {
   font-size: 16px;
   border-width: 0;
   height: 40px;
-  background-color: #17a2b8;
+  background-color: inherit;
   color: white;
 }
 </style>
