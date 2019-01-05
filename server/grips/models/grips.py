@@ -1,5 +1,6 @@
 from django.db import models
 from django.core.exceptions import ObjectDoesNotExist
+from django.contrib.postgres.search import SearchQuery, SearchRank, SearchVector
 
 class Grip(models.Model):
     title = models.CharField(max_length=100)
@@ -20,6 +21,14 @@ def get_by_id(id):
         return Grip.objects.get(id=id)
     except ObjectDoesNotExist:
         return None
+
+def get_by_search(user_email, searchTerm):
+    vector = SearchVector('title', 'content')
+    query = SearchQuery(searchTerm)
+    results = Grip.objects.filter(created_by=user_email, deleted=False) \
+        .annotate(rank=SearchRank(vector, query)) \
+        .order_by('-rank')[:10]
+    return results
 
 def create_one(**kwargs):
     return Grip(**kwargs)

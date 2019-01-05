@@ -1,12 +1,12 @@
 from rest_framework import status
 from rest_framework.response import Response
-from rest_framework.generics import DestroyAPIView, ListCreateAPIView
+from rest_framework import generics
 from grips.serializers.grips import GripSerializer
 from grips.services import grips as grips_service
 from grips.models import grips as grips_dao
 from users.services.auth import ApiAuthentication
 
-class GripsView(ListCreateAPIView):
+class GripListView(generics.ListCreateAPIView):
 
     serializer_class = GripSerializer
     authentication_classes = (ApiAuthentication,)
@@ -29,7 +29,7 @@ class GripsView(ListCreateAPIView):
         return Response("failed", status=status.HTTP_400_BAD_REQUEST)
 
 
-class GripView(DestroyAPIView):
+class GripDetailView(generics.DestroyAPIView):
 
     serializer_class = GripSerializer
     authentication_classes = (ApiAuthentication,)
@@ -47,3 +47,14 @@ class GripView(DestroyAPIView):
         grips_dao.save(grip)
 
         return Response("ok")
+
+class GripSearchView(generics.ListAPIView):
+
+    serializer_class = GripSerializer
+    authentication_classes = (ApiAuthentication,)
+
+    def list(self, request, *args, **kwargs):
+        searchTerm = request.GET.get('q', '')
+        grips = grips_service.get_by_search(request.user.email, searchTerm)
+        serializer = GripSerializer(grips, many=True)
+        return Response(serializer.data)
