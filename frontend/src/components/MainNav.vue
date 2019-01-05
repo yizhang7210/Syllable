@@ -1,22 +1,16 @@
 <template>
-  <div class="main-nav">
+  <b-navbar class="main-nav" type="dark" variant="info">
+    <b-navbar-brand href="#/landing"> Syllable </b-navbar-brand>
     <button class="g-signout" v-on:click="onSignOut">
-      Sign out of <br/> {{ userName }}
+      Sign out
     </button>
-  </div>
+  </b-navbar>
 </template>
 
 <script>
 /* global gapi:false */
 export default {
   name: 'MainNav',
-  computed: {
-    userName() {
-      return this.$store.state.currentUser.name;
-    }
-  },
-  mounted() {
-  },
   methods: {
     onSignOut: async function() {
       var auth2 = gapi.auth2.getAuthInstance();
@@ -30,14 +24,15 @@ export default {
 <style scoped>
 .main-nav {
   display: flex;
-  align-self: flex-start;
 }
 .g-signout {
+  display: flex;
+  align-self: flex-end;
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   font-size: 16px;
-  margin-top: 20px;
   border-width: 0;
-  width: 120px;
   height: 40px;
+  background-color: #17a2b8;
+  color: white;
 }
 </style>

@@ -35,7 +35,7 @@ export default {
 .grip {
   display: flex;
   flex-direction: column;
-  width: 280px;
+  width: 300px;
   height: 250px;
   margin: 10px;
   padding: 5px;
@@ -48,6 +48,7 @@ export default {
   display: flex;
   justify-content: space-between;
   font-weight: bold;
+  margin-bottom: 5px;
 }
 .cross {
   cursor: pointer;
@@ -56,5 +57,7 @@ export default {
   display: flex;
   flex: 1;
   white-space: pre;
+  font-size: 13px;
+  overflow: scroll;
 }
 </style>

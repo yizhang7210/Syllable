@@ -1,8 +1,10 @@
 <template>
   <div class="home">
     <MainNav/>
-    <GripGrid :grips="this.$store.state.gripsOnGrid"/>
-    <GripFeed :grips="this.$store.state.gripsOnGrid"/>
+    <div class="grids">
+      <GripFeed/>
+      <GripGrid :grips="this.$store.state.gripsOnGrid"/>
+    </div>
   </div>
 </template>
 
@@ -33,8 +35,11 @@ export default {
 <style scoped>
 .home {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   flex: 1;
-  align-items: center;
+}
+.grids {
+  display: flex;
+  flex: 1;
 }
 </style>

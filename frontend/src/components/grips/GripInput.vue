@@ -47,6 +47,8 @@ export default {
           Authorization: 'Bearer ' + this.$store.state.currentUser.token,
         }
       });
+      this.title = '';
+      this.content = '';
       this.isDisabled = false;
       this.$store.commit('fetchGrips');
     }
@@ -57,7 +59,7 @@ export default {
 .grip-input {
   display: flex;
   flex-direction: column;
-  width: 280px;
+  width: 300px;
   height: 250px;
   margin: 10px;
 }
@@ -69,6 +71,7 @@ export default {
 .content {
   display: flex;
   flex: 1;
+  font-size: 13px;
 }
 .submit-grip {
   align-self: flex-end;

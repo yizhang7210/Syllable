@@ -29,7 +29,7 @@ export default {
   flex-direction: column;
   align-self: flex-start;
   max-width: 25%;
-  margin-right: 10px;
+  margin: 0 20px;
   overflow: scroll;
 }
 </style>
