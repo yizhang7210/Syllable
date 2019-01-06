@@ -10,6 +10,7 @@ DATABASES = {
         'USER': os.environ['RDS_USERNAME'],
         'PASSWORD': os.environ['RDS_PASSWORD'],
     }
+}
 
 
 ALLOWED_HOSTS = [".us-east-2.elasticbeanstalk.com", "localhost"]

@@ -8,7 +8,7 @@ export default new Vuex.Store({
 	state: {
 		currentUser: {},
 		gripsOnGrid: [],
-		serverUrl: 'http://localhost:8000/',
+		serverUrl: 'http://dev-api.syllable.acre.one/',
 	},
 	mutations: {
 		updateUser(state, userObject) {
