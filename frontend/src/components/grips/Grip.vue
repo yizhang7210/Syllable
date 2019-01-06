@@ -31,15 +31,15 @@ export default {
   }
 }
 </script>
-<style scoped>
+<style scoped lang="scss">
 .grip {
   display: flex;
   flex-direction: column;
-  width: 300px;
-  height: 250px;
-  margin: 10px;
-  padding: 5px;
-  border-radius: 5px;
+  width: $grip-width;
+  height: $grip-height;
+  margin: $small-margin;
+  padding: $tiny-padding;
+  border-radius: $primary-border-radius;
   border-width: 1px;
   border-style: solid;
   border-color: black;
@@ -48,7 +48,7 @@ export default {
   display: flex;
   justify-content: space-between;
   font-weight: bold;
-  margin-bottom: 5px;
+  margin-bottom: $tiny-margin;
 }
 .cross {
   cursor: pointer;
@@ -57,7 +57,7 @@ export default {
   display: flex;
   flex: 1;
   white-space: pre;
-  font-size: 13px;
+  font-size: $content-font-size;
   overflow: scroll;
 }
 </style>

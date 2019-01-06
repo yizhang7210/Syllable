@@ -21,19 +21,18 @@ export default {
   }
 }
 </script>
-<style scoped>
+<style scoped lang="scss">
 .main-nav {
   display: flex;
-  background-color: #008CBA !important;
+  background-color: $primary-color !important;
 }
 .g-signout {
   display: flex;
-  align-self: flex-end;
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  font-size: 16px;
-  border-width: 0;
-  height: 40px;
+  font-family: $primary-font-family;
+  font-size: $title-font-size;
   background-color: inherit;
-  color: white;
+  color: $light-text-color;
+  border-width: 0;
+  cursor: pointer;
 }
 </style>

@@ -13,7 +13,7 @@
       :no-resize="true">
     </b-form-textarea>
     <b-button
-      class="submit-grip"
+      class="submit-button"
       v-on:click="this.onClick"
       :disabled="this.isDisabled">
       Post
@@ -55,28 +55,31 @@ export default {
   }
 }
 </script>
-<style scoped>
+<style scoped lang="scss">
 .grip-input {
   display: flex;
   flex-direction: column;
-  width: 300px;
-  height: 250px;
-  margin: 10px;
+  width: $grip-width;
+  height: $grip-width;
+  margin: $small-margin;
 }
 .title {
   display: flex;
   font-weight: bold;
-  margin-bottom: 10px;
+  margin-bottom: $small-margin;
 }
 .content {
   display: flex;
   flex: 1;
-  font-size: 13px;
+  font-size: $content-font-size;
 }
-.submit-grip {
+.submit-button {
   align-self: flex-end;
-  width: 80px;
+  min-width: $button-width;
+  margin-top: $small-margin;
+  border: none;
+  background-color: $primary-color;
+  color: $light-text-color;
   text-align: center;
-  margin-top: 5px;
 }
 </style>

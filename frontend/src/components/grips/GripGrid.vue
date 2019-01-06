@@ -36,7 +36,7 @@ export default {
   }
 }
 </script>
-<style scoped>
+<style scoped lang="scss">
 .grip-grid {
   display: flex;
   flex-direction: column;
@@ -46,11 +46,13 @@ export default {
   display: flex;
   align-self: center;
   max-width: 75%;
-  margin-top: 10px;
+  margin-top: $small-margin;
 }
 .grip-container {
   display: flex;
   flex: 1;
   flex-wrap: wrap;
+  max-height: $grip-grid-height;
+  overflow: scroll;
 }
 </style>

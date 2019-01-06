@@ -22,14 +22,12 @@ export default {
   ],
 }
 </script>
-<style scoped>
+<style scoped lang="scss">
 .grip-container {
   display: flex;
-  flex: 1;
   flex-direction: column;
   align-self: flex-start;
-  max-width: 25%;
-  margin: 0 20px;
+  margin: 0 $large-margin;
   overflow: scroll;
 }
 </style>
