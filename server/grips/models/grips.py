@@ -15,7 +15,9 @@ class Grip(models.Model):
         return self.title + ' by ' + str(self.created_by)
 
 def get_by_creator(creator_email):
-    return Grip.objects.filter(created_by=creator_email, deleted=False)
+    return Grip.objects.filter(
+        created_by=creator_email,
+        deleted=False).order_by('-created_at')
 
 def get_by_id(id):
     try:
@@ -38,7 +40,7 @@ def get_by_search(user_email, searchTerm):
         ],
         params=[query],
     )
-    return querySet
+    return querySet.order_by('-created_at')
 
 def create_one(**kwargs):
     return Grip(**kwargs)

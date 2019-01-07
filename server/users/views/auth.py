@@ -18,4 +18,4 @@ class GoogleSignInView(CreateAPIView):
         if jwt_token is not None:
             return Response({"token": jwt_token})
 
-        return Response("failed", status=status.HTTP_401_UNAUTHORIZED)
+        return Response({"detail": "failed"}, status=status.HTTP_401_UNAUTHORIZED)

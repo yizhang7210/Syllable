@@ -12,12 +12,15 @@
       placeholder="TL;DR"
       :no-resize="true">
     </b-form-textarea>
-    <b-button
-      class="submit-button"
-      v-on:click="this.onClick"
-      :disabled="this.isDisabled">
-      Post
-    </b-button>
+    <div class="submit-line">
+      <span class="error-message"> {{this.error}} </span>
+      <b-button
+        class="submit-button"
+        v-on:click="this.onClick"
+        :disabled="this.isDisabled">
+        Post
+      </b-button>
+    </div>
   </div>
 </template>
 
@@ -29,6 +32,7 @@ export default {
   data: () => ({
     title: '',
     content: '',
+    error: '',
     isDisabled: false,
   }),
   methods: {
@@ -38,6 +42,7 @@ export default {
       }
 
       this.isDisabled = true;
+
       await axios.post(this.$store.state.serverUrl + 'v1/grips', {
         title: this.title,
         content: this.content,
@@ -46,11 +51,19 @@ export default {
         headers: {
           Authorization: 'Bearer ' + this.$store.state.currentUser.token,
         }
+      })
+      .then((response) => {
+        this.isDisabled = false;
+        this.title = '';
+        this.content = '';
+        this.error = '';
+        this.$store.commit('fetchAllGrips');
+      })
+      .catch((error) => {
+        this.isDisabled = false;
+        this.error = error.response.data.detail;
+        return;
       });
-      this.title = '';
-      this.content = '';
-      this.isDisabled = false;
-      this.$store.commit('fetchAllGrips');
     }
   }
 }
@@ -73,8 +86,17 @@ export default {
   flex: 1;
   font-size: $content-font-size;
 }
+.submit-line {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.error-message {
+  flex: 1;
+  color: red;
+  font-size: $content-font-size;
+}
 .submit-button {
-  align-self: flex-end;
   min-width: $button-width;
   margin-top: $small-margin;
   border: none;

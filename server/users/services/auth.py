@@ -13,7 +13,7 @@ class ApiAuthentication(authentication.BaseAuthentication):
     def authenticate(self, request):
         auth_header = request.META.get('HTTP_AUTHORIZATION')
         if not auth_header:
-            raise exceptions.AuthenticationFailed('No auth header?')
+            raise exceptions.AuthenticationFailed('No auth header')
 
         jwt_token = auth_header.split(' ')[-1] # Bearer xxxx
         if not auth_header:
