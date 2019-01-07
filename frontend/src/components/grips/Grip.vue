@@ -4,7 +4,7 @@
       <div class="title">{{ grip.title }}</div>
       <div class="cross" v-on:click="this.onDelete"> x </div>
     </div>
-    <div class="content">{{ grip.content }}</div>
+    <p class="content">{{ grip.content }}</p>
   </div>
 </template>
 
@@ -56,7 +56,7 @@ export default {
 .content {
   display: flex;
   flex: 1;
-  white-space: pre;
+  white-space: pre-wrap;
   font-size: $content-font-size;
   overflow: scroll;
 }
