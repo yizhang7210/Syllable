@@ -15,6 +15,13 @@ export default {
     gapi.signin2.render('gSignIn', {
       onsuccess: this.onSignIn
     })
+    const checkSignIn = setInterval(() => {
+      const googleUser = gapi.auth2.init().currentUser.get();
+      if (googleUser && googleUser.isSignedIn()) {
+        this.$router.push('/home');
+        clearInterval(checkSignIn);
+      }
+    }, 1000);
   },
   methods: {
     onSignIn: async function(googleUser) {
