@@ -4,17 +4,16 @@
       <div class="title">{{ grip.title }}</div>
       <div class="cross" v-on:click="this.onDelete"> x </div>
     </div>
-    <p class="content">{{ grip.content }}</p>
+    <span class="content" v-html="this.linkify(grip.content)"></span>
   </div>
 </template>
 
 <script>
 import axios from 'axios';
+import linkifyHtml from 'linkifyjs/html';
 
 export default {
   name: 'Landing',
-  data: () => ({
-  }),
   props: [
     'grip',
   ],
@@ -27,6 +26,13 @@ export default {
         }
       });
       this.$store.commit('fetchAllGrips');
+    },
+    linkify: (text) => {
+      if (text.indexOf('http://') !== -1 || text.indexOf('https://') !== -1) {
+        return linkifyHtml(text);
+      } else {
+        return text;
+      }
     }
   }
 }
@@ -54,9 +60,8 @@ export default {
   cursor: pointer;
 }
 .content {
-  display: flex;
-  flex: 1;
   white-space: pre-wrap;
+  word-break: break-all;
   font-size: $content-font-size;
   overflow: scroll;
 }
