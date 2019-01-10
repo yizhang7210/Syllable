@@ -34,7 +34,7 @@ class GripListView(generics.ListCreateAPIView):
                 content=serializer.validated_data['content'],
                 created_by=creator
             ))
-            return Response({'detail': 'success'})
+            return Response(GripSerializer(new_grip).data)
         return Response(
             {'detail': "Invalid grip content"},
             status=status.HTTP_400_BAD_REQUEST

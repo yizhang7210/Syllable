@@ -21,6 +21,7 @@ from rest_framework_swagger.views import get_swagger_view
 api_v1_patterns = [
     path('docs/', get_swagger_view(title='Syllable API')),
     path('users/signin/google', user_views.GoogleSignInView.as_view()),
+    path('organizations', user_views.OrganizationView.as_view()),
     path('grips', grip_views.GripListView.as_view()),
     path('grips/search', grip_views.GripSearchView.as_view()),
     path('grips/<int:id>', grip_views.GripDetailView.as_view()),

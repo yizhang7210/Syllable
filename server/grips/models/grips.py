@@ -7,7 +7,7 @@ class Grip(models.Model):
     title = models.CharField(max_length=100)
     content = models.TextField()
     deleted = models.BooleanField(default=False)
-    created_by = models.EmailField(db_index=True)
+    created_by = models.EmailField(db_index=True) # No cross app reference
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -47,6 +47,7 @@ def create_one(**kwargs):
 
 def save(grip):
     grip.save()
+    return grip
 
 
 # https://www.fusionbox.com/blog/detail/partial-word-search-with-postgres-full-text-search-in-django/632/
