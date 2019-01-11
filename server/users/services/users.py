@@ -14,3 +14,6 @@ def make_admin(user_email, org):
 
 def has_org(user_email):
     return len(user_orgs_dao.get_by_user(user_email)) > 0
+
+def get_by_email(email):
+    return users_dao.get_by_email(email)

@@ -6,7 +6,7 @@ from users.services.auth import ApiAuthentication
 from users.services import organizations as orgs_service
 from users.services import users as users_service
 
-class OrganizationView(CreateAPIView):
+class OrganizationListView(CreateAPIView):
 
     serializer_class = OrganizationSerializer
     authentication_classes = (ApiAuthentication,)
