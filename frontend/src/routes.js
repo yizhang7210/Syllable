@@ -2,6 +2,7 @@ import Landing from './components/Landing.vue'
 import Home from './components/Home.vue'
 import AppContainer from './components/AppContainer.vue'
 import SettingsHome from './components/settings/SettingsHome.vue'
+import SettingsOrganization from './components/settings/SettingsOrganization.vue'
 
 export default [
   {
@@ -22,7 +23,13 @@ export default [
         },
         {
           path: 'settings',
-          component: SettingsHome
+          component: SettingsHome,
+          children: [
+            {
+              path: 'organization',
+              component: SettingsOrganization
+            }
+          ]
         }
       ]
   },

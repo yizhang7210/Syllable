@@ -1,18 +1,15 @@
 <template>
-  <div class="settings">
-    <SettingsNav/>
-    <router-view></router-view>
-  </div>
+  <b-navbar class="settings-nav" type="light" variant="light">
+    <b-navbar-nav>
+      <b-nav-item href="#/app/settings/organization">Organization</b-nav-item>
+    </b-navbar-nav>
+  </b-navbar>
 </template>
 
 <script>
-import SettingsNav from './SettingsNav'
 
 export default {
-  name: 'SettingsHome',
-  components: {
-    SettingsNav,
-  },
+  name: 'SettingsNav',
   methods: {
     onSignOut: async function() {
       var auth2 = gapi.auth2.getAuthInstance();
@@ -24,9 +21,7 @@ export default {
 }
 </script>
 <style scoped lang="scss">
-.settings {
+.settings-nav {
   display: flex;
-  flex-direction: row;
-  flex: 1;
 }
 </style>
