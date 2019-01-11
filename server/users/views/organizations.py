@@ -13,6 +13,12 @@ class OrganizationView(CreateAPIView):
 
     def post(self, request, *args, **kwargs):
         user_email = request.user.email
+        if users_service.has_org(user_email):
+            return Response(
+                {'detail': 'One user can only belong to one organization.'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
         new_org = orgs_service.create(request.data['name'], user_email)
         if new_org is None:
             return Response(

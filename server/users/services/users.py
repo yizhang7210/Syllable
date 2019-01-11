@@ -11,3 +11,6 @@ def join_org_with_role(user_email, org, role):
 
 def make_admin(user_email, org):
     return join_org_with_role(user_email, org, user_orgs_dao.Role.ADMIN)
+
+def has_org(user_email):
+    return len(user_orgs_dao.get_by_user(user_email)) > 0

@@ -18,6 +18,8 @@ class UserOrganization(models.Model):
     class Meta:
         unique_together = (('user', 'organization'), )
 
+def get_by_user(user_email):
+    return UserOrganization.objects.filter(user=user_email)
 
 def create_one(**kwargs):
     return UserOrganization(**kwargs)
