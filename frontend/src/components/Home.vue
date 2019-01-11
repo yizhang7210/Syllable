@@ -1,6 +1,5 @@
 <template>
   <div class="home">
-    <MainNav/>
     <div class="grids">
       <GripFeed/>
       <GripGrid :grips="this.$store.state.gripsOnGrid"/>
@@ -11,14 +10,12 @@
 <script>
 import GripFeed from './grips/GripFeed'
 import GripGrid from './grips/GripGrid'
-import MainNav from './MainNav'
 
 export default {
   name: 'Home',
   components: {
     GripFeed,
     GripGrid,
-    MainNav,
   },
   data: () => ({
     grips: []

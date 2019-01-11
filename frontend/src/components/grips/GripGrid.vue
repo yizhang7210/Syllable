@@ -45,7 +45,7 @@ export default {
 .search {
   display: flex;
   align-self: center;
-  max-width: 75%;
+  max-width: $main-section-max-width;
   margin-top: $small-margin;
 }
 .grip-container {

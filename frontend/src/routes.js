@@ -1,5 +1,7 @@
 import Landing from './components/Landing.vue'
 import Home from './components/Home.vue'
+import AppContainer from './components/AppContainer.vue'
+import SettingsHome from './components/settings/SettingsHome.vue'
 
 export default [
   {
@@ -11,7 +13,17 @@ export default [
     component: Landing,
   },
   {
-    path: '/home',
-    component: Home,
+    path: '/app',
+    component: AppContainer,
+    children: [
+        {
+          path: 'home',
+          component: Home,
+        },
+        {
+          path: 'settings',
+          component: SettingsHome
+        }
+      ]
   },
 ];

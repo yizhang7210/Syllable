@@ -18,7 +18,7 @@ export default {
     const checkSignIn = setInterval(() => {
       const googleUser = gapi.auth2.init().currentUser.get();
       if (googleUser && googleUser.isSignedIn()) {
-        this.$router.push('/home');
+        this.$router.push('/app/home');
         clearInterval(checkSignIn);
       }
     }, 1000);
@@ -37,7 +37,7 @@ export default {
         name: profile.getGivenName(),
         token: response.data.token,
       });
-      this.$router.push('/home');
+      this.$router.push('/app/home');
     },
   }
 }
