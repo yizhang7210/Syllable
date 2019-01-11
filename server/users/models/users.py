@@ -1,14 +1,11 @@
 from django.db import models
 from django.core.exceptions import ObjectDoesNotExist
 
-from .organizations import Organization
-
 class User(models.Model):
     email = models.EmailField(max_length=50, unique=True, primary_key=True)
     family_name = models.CharField(max_length=100)
     given_name = models.CharField(max_length=100)
     created_at = models.DateTimeField(auto_now_add=True)
-    org = models.ForeignKey(Organization, null=True, on_delete=models.SET_NULL)
 
     def __str__(self):
         return self.given_name + ':' + str(self.email)

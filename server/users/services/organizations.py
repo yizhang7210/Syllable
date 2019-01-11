@@ -11,9 +11,3 @@ def create(org_name, creator):
             created_by=creator
         ))
         return new_org
-
-def get_by_id(id):
-    return grips_dao.get_by_id(id)
-
-def get_by_search(user_email, searchTerm):
-    return grips_dao.get_by_search(user_email, searchTerm)
