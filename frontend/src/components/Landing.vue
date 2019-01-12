@@ -18,28 +18,33 @@ export default {
     const checkSignIn = setInterval(() => {
       const googleUser = gapi.auth2.init().currentUser.get();
       if (googleUser && googleUser.isSignedIn()) {
-        this.$router.push('/app/home');
         clearInterval(checkSignIn);
+        this.$router.push('/app/home');
       }
-    }, 1000);
+    }, 2000);
   },
   methods: {
     onSignIn: async function(googleUser) {
       var profile = googleUser.getBasicProfile();
-      const response = await axios.post(this.$store.state.serverUrl+ 'v1/users/signin/google', {
+      const response = await axios.post(this.$store.state.serverUrl + 'v1/users/signin/google', {
         family_name: profile.getFamilyName(),
         given_name: profile.getGivenName(),
         email: profile.getEmail(),
         token: googleUser.getAuthResponse().id_token,
       });
+      const token = response.data.token;
+      const users = await axios.get(this.$store.state.serverUrl + 'v1/users', {
+        headers: {
+          Authorization: 'Bearer ' + token,
+        }
+      });
       this.$store.commit('updateUser', {
-        email: profile.getEmail(),
-        name: profile.getGivenName(),
-        token: response.data.token,
+        token,
+        ...users.data[0]
       });
       this.$router.push('/app/home');
     },
-  }
+  },
 }
 </script>
 <style scoped>

@@ -12,7 +12,7 @@ export default new Vuex.Store({
 	},
 	mutations: {
 		updateUser(state, userObject) {
-			state.currentUser = userObject
+			state.currentUser = Object.assign({}, state.currentUser, userObject);
 		},
 		async fetchAllGrips(state) {
 			const response = await axios.get(state.serverUrl + 'v1/grips', {
