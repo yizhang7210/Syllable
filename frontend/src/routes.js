@@ -26,6 +26,10 @@ export default [
           component: SettingsHome,
           children: [
             {
+              path: '/',
+              redirect: '/app/settings/organization'
+            },
+            {
               path: 'organization',
               component: SettingsOrganization
             }
