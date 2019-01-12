@@ -10,7 +10,10 @@ class UserSerializer(serializers.ModelSerializer):
     def get_org(self, user):
         user_orgs = user_orgs_dao.get_by_user(user.email)
         if len(user_orgs) > 0:
-            return OrganizationSerializer(user_orgs[0].organization).data
+            user_org = user_orgs[0]
+            org = OrganizationSerializer(user_org.organization).data
+            org['role'] = user_org.role
+            return org
 
     class Meta:
         model = User
