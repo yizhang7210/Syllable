@@ -36,14 +36,14 @@ export default {
     isDisabled: false,
   }),
   methods: {
-    onClick: async function() {
+    onClick: function() {
       if (!this.title || !this.content) {
         return;
       }
 
       this.isDisabled = true;
 
-      await axios.post(this.$store.state.serverUrl + 'v1/grips', {
+      axios.post(this.$store.state.serverUrl + 'v1/grips', {
         title: this.title,
         content: this.content,
         created_by: this.$store.state.currentUser.email
@@ -51,18 +51,15 @@ export default {
         headers: {
           Authorization: 'Bearer ' + this.$store.state.currentUser.token,
         }
-      })
-      .then((response) => {
+      }).then((response) => {
         this.isDisabled = false;
         this.title = '';
         this.content = '';
         this.error = '';
         this.$store.commit('fetchAllGrips');
-      })
-      .catch((error) => {
+      }).catch((error) => {
         this.isDisabled = false;
         this.error = error.response.data.detail;
-        return;
       });
     }
   }

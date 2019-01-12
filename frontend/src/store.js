@@ -43,5 +43,15 @@ export default new Vuex.Store({
 
 			state.gripsOnGrid = [];
     }
+	},
+	actions: {
+		async refreshUser(context) {
+			const users = await axios.get(context.state.serverUrl + 'v1/users', {
+				headers: {
+					Authorization: 'Bearer ' + context.state.currentUser.token,
+				}
+			});
+			context.commit('updateUser', users.data[0]);
+		},
 	}
 })

@@ -21,7 +21,7 @@ export default {
         clearInterval(checkSignIn);
         this.$router.push('/app/home');
       }
-    }, 2000);
+    }, 1500);
   },
   methods: {
     onSignIn: async function(googleUser) {
@@ -33,15 +33,8 @@ export default {
         token: googleUser.getAuthResponse().id_token,
       });
       const token = response.data.token;
-      const users = await axios.get(this.$store.state.serverUrl + 'v1/users', {
-        headers: {
-          Authorization: 'Bearer ' + token,
-        }
-      });
-      this.$store.commit('updateUser', {
-        token,
-        ...users.data[0]
-      });
+      this.$store.commit('updateUser', { token });
+      this.$store.dispatch('refreshUser');
       this.$router.push('/app/home');
     },
   },
