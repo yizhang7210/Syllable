@@ -11,3 +11,7 @@ def create(org_name, creator):
             created_by=creator
         ))
         return new_org
+
+def update(org_id, updated_data):
+    org = orgs_dao.get_by_id(org_id)
+    return orgs_dao.update(org, updated_data)

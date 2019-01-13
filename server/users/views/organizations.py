@@ -1,12 +1,12 @@
 from rest_framework.response import Response
-from rest_framework.generics import CreateAPIView
+from rest_framework import generics
 from rest_framework import status
 from users.serializers.organizations import OrganizationSerializer
-from users.services.auth import ApiAuthentication
+from users.services.auth import ApiAuthentication, ApiOrgAuthentication
 from users.services import organizations as orgs_service
 from users.services import users as users_service
 
-class OrganizationListView(CreateAPIView):
+class OrganizationListView(generics.CreateAPIView):
 
     serializer_class = OrganizationSerializer
     authentication_classes = (ApiAuthentication,)
@@ -28,3 +28,13 @@ class OrganizationListView(CreateAPIView):
         else:
             users_service.make_admin(user_email, new_org)
             return Response(OrganizationSerializer(new_org).data)
+
+class OrganizationDetailView(generics.UpdateAPIView):
+
+    serializer_class = OrganizationSerializer
+    authentication_classes = (ApiOrgAuthentication,)
+
+    def patch(self, request, *args, **kwargs):
+        user_org = request.auth
+        org = orgs_service.update(user_org.organization.id, request.data)
+        return Response(OrganizationSerializer(org).data)

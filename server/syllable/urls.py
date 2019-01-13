@@ -23,6 +23,7 @@ api_v1_patterns = [
     path('users', user_views.UserDetailView.as_view()),
     path('users/signin/google', user_views.GoogleSignInView.as_view()),
     path('organizations', user_views.OrganizationListView.as_view()),
+    path('organizations/<int:id>', user_views.OrganizationDetailView.as_view()),
     path('grips', grip_views.GripListView.as_view()),
     path('grips/search', grip_views.GripSearchView.as_view()),
     path('grips/<int:id>', grip_views.GripDetailView.as_view()),

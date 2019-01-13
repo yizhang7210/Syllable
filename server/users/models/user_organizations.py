@@ -13,13 +13,16 @@ class UserOrganization(models.Model):
     role = models.CharField(max_length=100)
 
     def __str__(self):
-        return self.user + ' at ' + self.organization + ' with ' + self.role
+        return self.user.email + ' at ' + self.organization.name + ' with ' + self.role
 
     class Meta:
         unique_together = (('user', 'organization'), )
 
 def get_by_user(user_email):
     return UserOrganization.objects.filter(user=user_email)
+
+def get_by_user_and_org(user_email, org_id):
+    return UserOrganization.objects.get(user=user_email, organization=org_id)
 
 def create_one(**kwargs):
     return UserOrganization(**kwargs)

@@ -4,7 +4,8 @@ from google.auth.transport import requests
 from django.core.exceptions import ObjectDoesNotExist
 from rest_framework import authentication
 from rest_framework import exceptions
-from users.models import users
+from users.models import users as users_dao
+from users.models import user_organizations as user_orgs_dao
 
 CLIENT_ID = "524164616554-qmh6kkofkqi3lg9873npjv0hgar04gft.apps.googleusercontent.com"
 SECRET = 'syllable_secret'
@@ -25,11 +26,28 @@ class ApiAuthentication(authentication.BaseAuthentication):
             raise exceptions.AuthenticationFailed('Incorrect auth header')
 
         try:
-            user = users.get_by_email(user_email)
+            user = users_dao.get_by_email(user_email)
         except ObjectDoesNotExist:
             raise exceptions.AuthenticationFailed('No such user')
 
         return (user, None)
+
+class ApiOrgAuthentication(authentication.BaseAuthentication):
+
+    api_auth = ApiAuthentication()
+    def authenticate(self, request):
+        user, auth = self.api_auth.authenticate(request)
+
+        org_id = request.path.split('/')[-1]
+        try:
+            user_org = user_orgs_dao.get_by_user_and_org(user.email, org_id)
+        except ObjectDoesNotExist:
+            raise exceptions.AuthenticationFailed('User/Organization mismatch')
+
+        if user_org.role != user_orgs_dao.Role.ADMIN.value:
+            raise exceptions.AuthenticationFailed('User not authoized')
+
+        return (user, user_org)
 
 def sign_in_with_google(family_name, given_name, email, google_token):
     user_id = verify_google_user(google_token)
@@ -53,7 +71,7 @@ def verify_google_user(google_token):
         return None
 
 def persist_user(email, family_name, given_name):
-    users.upsert(users.create_one(
+    users_dao.upsert(users_dao.create_one(
         email=email, family_name=family_name, given_name=given_name
     ))
 
