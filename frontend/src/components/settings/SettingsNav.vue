@@ -11,12 +11,6 @@
 export default {
   name: 'SettingsNav',
   methods: {
-    onSignOut: async function() {
-      var auth2 = gapi.auth2.getAuthInstance();
-      await auth2.signOut();
-      this.$store.commit('updateUser', null);
-      this.$router.push('/landing');
-    },
   }
 }
 </script>

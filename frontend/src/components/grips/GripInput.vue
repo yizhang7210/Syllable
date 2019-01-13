@@ -25,7 +25,7 @@
 </template>
 
 <script>
-import axios from 'axios';
+import http from '../../utils/http'
 
 export default {
   name: 'GripInput',
@@ -38,25 +38,21 @@ export default {
   methods: {
     onClick: function() {
       if (!this.title || !this.content) {
+        this.error = 'Please fill in both title and content.'
         return;
       }
-
       this.isDisabled = true;
 
-      axios.post(this.$store.state.serverUrl + 'v1/grips', {
+      http.post('v1/grips', {
         title: this.title,
         content: this.content,
         created_by: this.$store.state.currentUser.email
-      }, {
-        headers: {
-          Authorization: 'Bearer ' + this.$store.state.currentUser.token,
-        }
-      }).then((response) => {
+      }).then(() => {
         this.isDisabled = false;
         this.title = '';
         this.content = '';
         this.error = '';
-        this.$store.commit('fetchAllGrips');
+        this.$store.dispatch('fetchAllGrips');
       }).catch((error) => {
         this.isDisabled = false;
         this.error = error.response.data.detail;

@@ -1,7 +1,7 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
-import axios from 'axios';
-import createPersistedState from 'vuex-persistedstate'
+import Vue from 'vue';
+import Vuex from 'vuex';
+import createPersistedState from 'vuex-persistedstate';
+import http from './utils/http';
 
 Vue.use(Vuex)
 
@@ -10,48 +10,27 @@ export default new Vuex.Store({
 	state: {
 		currentUser: {},
 		gripsOnGrid: [],
-		serverUrl: process.env.VUE_APP_SERVER_URL,
 	},
 	mutations: {
 		updateUser(state, userObject) {
 			state.currentUser = Object.assign({}, state.currentUser, userObject);
 		},
-		async fetchAllGrips(state) {
-			const response = await axios.get(state.serverUrl + 'v1/grips', {
-				headers: {
-					Authorization: 'Bearer ' + state.currentUser.token,
-				}
-			});
-			if (response.status === 200) {
-				state.gripsOnGrid = response.data;
-				return;
-			}
-
-			state.gripsOnGrid = [];
-    },
-		async searchGrips(state, searchTerm) {
-			const searchUrl = state.serverUrl + 'v1/grips/search?q=' + searchTerm
-			const response = await axios.get(searchUrl, {
-				headers: {
-					Authorization: 'Bearer ' + state.currentUser.token,
-				}
-			});
-			if (response.status === 200) {
-				state.gripsOnGrid = response.data;
-				return;
-			}
-
-			state.gripsOnGrid = [];
-    }
+		updateGripGrid(state, grips) {
+			state.gripsOnGrid = grips;
+		},
 	},
 	actions: {
 		async refreshUser(context) {
-			const users = await axios.get(context.state.serverUrl + 'v1/users', {
-				headers: {
-					Authorization: 'Bearer ' + context.state.currentUser.token,
-				}
-			});
+			const users = await http.get('v1/users');
 			context.commit('updateUser', users.data[0]);
 		},
+		async fetchAllGrips(context) {
+			const grips = await http.get('v1/grips');
+			context.commit('updateGripGrid', grips.data);
+    },
+		async searchGrips(context, searchTerm) {
+			const grips = await http.get('v1/grips/search?q=' + searchTerm);
+			context.commit('updateGripGrid', grips.data);
+		}
 	}
 })

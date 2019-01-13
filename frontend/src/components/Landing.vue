@@ -7,7 +7,7 @@
 
 <script>
 /* global gapi:false */
-import axios from 'axios';
+import http from '../utils/http'
 
 export default {
   name: 'Landing',
@@ -26,7 +26,7 @@ export default {
   methods: {
     onSignIn: async function(googleUser) {
       var profile = googleUser.getBasicProfile();
-      const response = await axios.post(this.$store.state.serverUrl + 'v1/users/signin/google', {
+      const response = await http.post('v1/users/signin/google', {
         family_name: profile.getFamilyName(),
         given_name: profile.getGivenName(),
         email: profile.getEmail(),

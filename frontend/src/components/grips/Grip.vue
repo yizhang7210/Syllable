@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import axios from 'axios';
+import http from '../../utils/http'
 import linkifyHtml from 'linkifyjs/html';
 
 export default {
@@ -19,13 +19,8 @@ export default {
   ],
   methods: {
     onDelete: async function() {
-      const uri = this.$store.state.serverUrl + 'v1/grips/' + this.grip.id;
-      await axios.delete(uri, {
-        headers: {
-          Authorization: 'Bearer ' + this.$store.state.currentUser.token,
-        }
-      });
-      this.$store.commit('fetchAllGrips');
+      await http.delete('v1/grips/' + this.grip.id);
+      this.$store.dispatch('fetchAllGrips');
     },
     linkify: (text) => {
       if (text.indexOf('http://') !== -1 || text.indexOf('https://') !== -1) {

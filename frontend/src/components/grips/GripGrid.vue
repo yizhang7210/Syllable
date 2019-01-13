@@ -28,10 +28,10 @@ export default {
   methods: {
     onSearchInput: function(value) {
       if (!value) {
-        this.$store.commit('fetchAllGrips', value);
+        this.$store.dispatch('fetchAllGrips');
         return;
       }
-      this.$store.commit('searchGrips', value);
+      this.$store.dispatch('searchGrips', value);
     }
   }
 }

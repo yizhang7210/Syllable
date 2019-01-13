@@ -27,7 +27,7 @@
 </template>
 
 <script>
-import axios from 'axios'
+import http from '../../utils/http'
 
 export default {
   name: 'SettingsOrganization',
@@ -47,13 +47,9 @@ export default {
   methods: {
     onCreateOrg: function() {
       this.submitting = true;
-      axios.post(this.$store.state.serverUrl + 'v1/organizations', {
+      http.post('v1/organizations', {
         name: this.newOrgName
-      }, {
-        headers: {
-          Authorization: 'Bearer ' + this.$store.state.currentUser.token,
-        }
-      }).then((response) => {
+      }).then(() => {
         this.submitting = false;
         this.newOrgName = '';
         this.error = '';
