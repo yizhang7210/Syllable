@@ -1,7 +1,6 @@
+import re
 from django.db import models
 from django.core.exceptions import ObjectDoesNotExist
-from django.contrib.postgres.search import SearchQuery, SearchRank, SearchVector
-import re
 
 class Grip(models.Model):
     title = models.CharField(max_length=100)
@@ -19,17 +18,17 @@ def get_by_creator(creator_email):
         created_by=creator_email,
         deleted=False).order_by('-created_at')
 
-def get_by_id(id):
+def get_by_id(grip_id):
     try:
-        return Grip.objects.get(id=id)
+        return Grip.objects.get(id=grip_id)
     except ObjectDoesNotExist:
         return None
 
-def get_by_search(user_email, searchTerm):
-    querySet = Grip.objects.filter(created_by=user_email, deleted=False)
+def get_by_search(user_email, search_term):
+    query_set = Grip.objects.filter(created_by=user_email, deleted=False)
 
-    query = process_query(searchTerm)
-    querySet = querySet.extra(
+    query = process_query(search_term)
+    query_set = query_set.extra(
         where=[
             '''
             to_tsvector('english', concat_ws(' ',
@@ -40,7 +39,7 @@ def get_by_search(user_email, searchTerm):
         ],
         params=[query],
     )
-    return querySet.order_by('-created_at')
+    return query_set.order_by('-created_at')
 
 def create_one(**kwargs):
     return Grip(**kwargs)
@@ -51,8 +50,8 @@ def save(grip):
 
 
 # https://www.fusionbox.com/blog/detail/partial-word-search-with-postgres-full-text-search-in-django/632/
-def process_query(searchTerm):
-    query = re.sub(r'[!\'()|&]', ' ', searchTerm).strip()
+def process_query(search_term):
+    query = re.sub(r'[!\'()|&]', ' ', search_term).strip()
     if query:
         query = re.sub(r'\s+', ' & ', query)
         # Support prefix search on the last word. A tsquery of 'toda:*' will

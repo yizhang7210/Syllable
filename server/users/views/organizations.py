@@ -23,9 +23,9 @@ class OrganizationListView(generics.CreateAPIView):
             return Response(
                 {'detail': 'Organization with this name already exists.'},
                 status=status.HTTP_400_BAD_REQUEST)
-        else:
-            users_service.make_admin(user_email, new_org)
-            return Response(OrganizationSerializer(new_org).data)
+
+        users_service.make_admin(user_email, new_org)
+        return Response(OrganizationSerializer(new_org).data)
 
 class OrganizationDetailView(generics.UpdateAPIView):
 

@@ -16,9 +16,9 @@ def get_by_name(name):
     except ObjectDoesNotExist:
         return None
 
-def get_by_id(id):
+def get_by_id(org_id):
     try:
-        return Organization.objects.get(id=id)
+        return Organization.objects.get(id=org_id)
     except ObjectDoesNotExist:
         return None
 
@@ -33,7 +33,7 @@ def create_one(**kwargs):
 
 def update(org, updated_data):
     for field in updated_data:
-        if isUpdatable(field):
+        if is_updatable(field):
             setattr(org, field, updated_data[field])
     return save(org)
 
@@ -41,5 +41,5 @@ def save(org):
     org.save()
     return org
 
-def isUpdatable(field):
+def is_updatable(field):
     return field in ['name', 'domain']

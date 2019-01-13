@@ -4,12 +4,12 @@ def create(org_name, creator):
     existing = orgs_dao.get_by_name(org_name)
     if existing is not None:
         return None
-    else:
-        new_org = orgs_dao.save(orgs_dao.create_one(
-            name=org_name,
-            created_by=creator
-        ))
-        return new_org
+
+    new_org = orgs_dao.save(orgs_dao.create_one(
+        name=org_name,
+        created_by=creator
+    ))
+    return new_org
 
 def update(org_id, updated_data):
     org = orgs_dao.get_by_id(org_id)

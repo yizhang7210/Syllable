@@ -51,7 +51,7 @@ class GripDetailView(generics.DestroyAPIView):
                 {'detail': "Grip does not exist."},
                 status=status.HTTP_400_BAD_REQUEST)
 
-        if (grip.created_by != request.user.email):
+        if grip.created_by != request.user.email:
             return Response(
                 {'detail': "Cannot delete grip."},
                 status=status.HTTP_401_UNAUTHORIZED)
@@ -67,7 +67,7 @@ class GripSearchView(generics.ListAPIView):
     authentication_classes = (ApiAuthentication,)
 
     def list(self, request, *args, **kwargs):
-        searchTerm = request.GET.get('q', '')
-        grips = grips_service.get_by_search(request.user.email, searchTerm)
+        serach_term = request.GET.get('q', '')
+        grips = grips_service.get_by_search(request.user.email, serach_term)
         serializer = GripSerializer(grips, many=True)
         return Response(serializer.data)

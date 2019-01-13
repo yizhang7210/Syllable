@@ -34,7 +34,7 @@ class ApiOrgAuthentication(authentication.BaseAuthentication):
 
     api_auth = ApiAuthentication()
     def authenticate(self, request):
-        user, auth = self.api_auth.authenticate(request)
+        user, _ = self.api_auth.authenticate(request)
 
         org_id = request.path.split('/')[-1]
         user_org = user_orgs_dao.get_by_user_and_org(user.email, org_id)
