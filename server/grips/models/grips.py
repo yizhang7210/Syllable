@@ -9,6 +9,7 @@ class Grip(models.Model):
     created_by = models.EmailField(db_index=True) # No cross app reference
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    owned_by = models.CharField(max_length=50) # user email or org id
 
     def __str__(self):
         return self.title + ' by ' + str(self.created_by)
@@ -18,15 +19,18 @@ def get_by_creator(creator_email):
         created_by=creator_email,
         deleted=False).order_by('-created_at')
 
+def get_by_owner(owner_identifier):
+    return Grip.objects.filter(
+        owned_by=owner_identifier,
+        deleted=False).order_by('-created_at')
+
 def get_by_id(grip_id):
     try:
         return Grip.objects.get(id=grip_id)
     except ObjectDoesNotExist:
         return None
 
-def get_by_search(user_email, search_term):
-    query_set = Grip.objects.filter(created_by=user_email, deleted=False)
-
+def search(query_set, search_term):
     query = process_query(search_term)
     query_set = query_set.extra(
         where=[

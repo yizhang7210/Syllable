@@ -14,7 +14,7 @@ class GripListView(generics.ListCreateAPIView):
     authentication_classes = (ApiAuthentication,)
 
     def list(self, request, *args, **kwargs):
-        grips = grips_service.get_all_by_user(request.user.email)
+        grips = grips_service.get_all_visible_by_user(request.user.email)
         serializer = GripSerializer(grips, many=True)
         return Response(serializer.data)
 
