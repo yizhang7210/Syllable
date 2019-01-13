@@ -17,5 +17,7 @@ export default {
 <style scoped lang="scss">
 .settings-nav {
   display: flex;
+  width: 100% - $main-section-max-width;
+  justify-content: flex-end;
 }
 </style>

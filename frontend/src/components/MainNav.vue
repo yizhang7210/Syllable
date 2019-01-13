@@ -80,8 +80,7 @@ export default {
   display: flex;
 }
 .nav-button {
-  font-family: $primary-font-family;
-  font-size: $title-font-size;
+  font-size: $grip-title-font-size;
   background-color: inherit;
   color: $light-text-color;
   border-width: 0;
