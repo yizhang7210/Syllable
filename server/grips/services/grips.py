@@ -10,3 +10,15 @@ def get_by_id(grip_id):
 
 def get_by_search(user_email, search_term):
     return grips_dao.search(get_all_visible_by_user(user_email), search_term)
+
+def delete(grip):
+    grip.deleted = True
+    grips_dao.save(grip)
+
+def create(title, content, creator, is_shared):
+    owner = user_service.get_current_org(creator).id if is_shared else creator
+    return grips_dao.save(grips_dao.create_one(
+        title=title,
+        content=content,
+        created_by=creator,
+        owned_by=owner))

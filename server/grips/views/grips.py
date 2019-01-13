@@ -3,7 +3,6 @@ from rest_framework.response import Response
 from rest_framework import generics
 from grips.serializers.grips import GripSerializer
 from grips.services import grips as grips_service
-from grips.models import grips as grips_dao
 from users.services.auth import ApiAuthentication
 
 GRIP_SIZE_LIMIT = 365
@@ -25,17 +24,12 @@ class GripListView(generics.ListCreateAPIView):
                 {'detail': msg},
                 status=status.HTTP_400_BAD_REQUEST)
 
-        serializer = GripSerializer(data=request.data)
-        creator = request.user.email
-        if serializer.is_valid():
-            new_grip = grips_dao.save(grips_dao.create_one(
-                title=serializer.validated_data['title'],
-                content=serializer.validated_data['content'],
-                created_by=creator))
-            return Response(GripSerializer(new_grip).data)
-        return Response(
-            {'detail': "Invalid grip content"},
-            status=status.HTTP_400_BAD_REQUEST)
+        new_grip = grips_service.create(
+            request.data['title'],
+            request.data['content'],
+            request.user.email,
+            request.data['is_shared'])
+        return Response(GripSerializer(new_grip).data)
 
 
 class GripDetailView(generics.DestroyAPIView):
@@ -56,8 +50,7 @@ class GripDetailView(generics.DestroyAPIView):
                 {'detail': "Cannot delete grip."},
                 status=status.HTTP_401_UNAUTHORIZED)
 
-        grip.deleted = True
-        grips_dao.save(grip)
+        grips_service.delete(grip)
 
         return Response({'detail': 'success'})
 

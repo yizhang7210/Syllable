@@ -1,26 +1,33 @@
 <template>
-  <div class="grip-input">
-    <b-form-input
-      class="title"
-      v-model="title"
-      type="text"
-      placeholder="New Grip">
-    </b-form-input>
-    <b-form-textarea
-      class="content"
-      v-model="content"
-      placeholder="TL;DR"
-      :no-resize="true">
-    </b-form-textarea>
-    <div class="submit-line">
-      <span class="error-message"> {{this.error}} </span>
-      <b-button
-        class="submit-button"
-        v-on:click="this.onClick"
-        :disabled="this.isDisabled">
-        Post
-      </b-button>
+  <div class="grip-input-container">
+    <div class="grip-input">
+      <b-form-input
+        class="title"
+        v-model="title"
+        type="text"
+        placeholder="New Grip">
+      </b-form-input>
+      <b-form-textarea
+        class="content"
+        v-model="content"
+        placeholder="TL;DR"
+        :no-resize="true">
+      </b-form-textarea>
+      <div class="submit-line">
+        <div>
+          <input type="checkbox"
+            v-model="isShared"/>
+          <span class="is-shared"> Share with your organization </span>
+        </div>
+        <b-button
+          class="submit-button"
+          v-on:click="this.onClick"
+          :disabled="this.isDisabled">
+          Post
+        </b-button>
+      </div>
     </div>
+    <span class="error-message"> {{this.error}} </span>
   </div>
 </template>
 
@@ -34,6 +41,7 @@ export default {
     content: '',
     error: '',
     isDisabled: false,
+    isShared: true,
   }),
   methods: {
     onClick: function() {
@@ -46,7 +54,8 @@ export default {
       http.post('v1/grips', {
         title: this.title,
         content: this.content,
-        created_by: this.$store.state.currentUser.email
+        created_by: this.$store.state.currentUser.email,
+        is_shared: this.isShared,
       }).then(() => {
         this.isDisabled = false;
         this.title = '';
@@ -62,12 +71,14 @@ export default {
 }
 </script>
 <style scoped lang="scss">
+.grip-input-container {
+  margin: $small-margin;
+}
 .grip-input {
   display: flex;
   flex-direction: column;
   width: $grip-width;
   height: $grip-width;
-  margin: $small-margin;
 }
 .title {
   display: flex;
@@ -83,9 +94,13 @@ export default {
   display: flex;
   flex-direction: row;
   align-items: center;
+  justify-content: space-between;
+  font-size: $content-font-size;
+}
+.is-shared {
+  margin-left: $tiny-margin;
 }
 .error-message {
-  flex: 1;
   color: red;
   font-size: $content-font-size;
 }
