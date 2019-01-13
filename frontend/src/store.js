@@ -6,14 +6,17 @@ import http from './utils/http';
 Vue.use(Vuex)
 
 export default new Vuex.Store({
-	plugins: [createPersistedState()],
+	plugins: [createPersistedState({key: '__syllable'})],
 	state: {
-		currentUser: {},
+		currentUser: null,
 		gripsOnGrid: [],
 	},
 	mutations: {
 		updateUser(state, userObject) {
 			state.currentUser = Object.assign({}, state.currentUser, userObject);
+		},
+		clearUser(state) {
+			state.currentUser = null;
 		},
 		updateGripGrid(state, grips) {
 			state.gripsOnGrid = grips;

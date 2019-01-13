@@ -21,7 +21,7 @@ export default {
     grips: []
   }),
   mounted() {
-    if (!this.$store.state.currentUser.token) {
+    if (!this.$store.state.currentUser) {
       this.$router.push('/landing');
       return;
     }

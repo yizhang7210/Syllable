@@ -1,12 +1,18 @@
 <template>
   <div id="app">
+    <MainNav/>
     <router-view></router-view>
   </div>
 </template>
 
 <script>
+import MainNav from './components/MainNav'
+
 export default {
   name: 'app',
+  components: {
+    MainNav,
+  },
 }
 </script>
 <style>
@@ -14,6 +20,6 @@ export default {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   display: flex;
   flex: 1;
-  flex-direction: row;
+  flex-direction: column;
 }
 </style>
