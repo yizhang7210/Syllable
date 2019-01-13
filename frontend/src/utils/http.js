@@ -9,14 +9,17 @@ export default {
       return { headers: { Authorization: 'Bearer ' + store.state.currentUser.token }};
     }
   },
+  get(subUrl) {
+		return axios.get(SERVER_URL + subUrl, this.getAuthHeader());
+  },
   post(subUrl, payload) {
     return axios.post(SERVER_URL + subUrl, payload, this.getAuthHeader());
+  },
+  patch(subUrl, payload) {
+    return axios.patch(SERVER_URL + subUrl, payload, this.getAuthHeader());
   },
   delete(subUrl) {
     return axios.delete(SERVER_URL + subUrl, this.getAuthHeader());
   },
-  get(subUrl) {
-		return axios.get(SERVER_URL + subUrl, this.getAuthHeader());
-  }
 
 }
