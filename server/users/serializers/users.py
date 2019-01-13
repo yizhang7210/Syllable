@@ -9,11 +9,10 @@ class UserSerializer(serializers.ModelSerializer):
 
     # pylint: disable=no-self-use
     def get_org(self, user):
-        user_orgs = user_orgs_dao.get_by_user(user.email)
-        if not user_orgs:
+        user_org = user_orgs_dao.get_by_user(user.email)
+        if user_org is None:
             return None
 
-        user_org = user_orgs[0]
         org = OrganizationSerializer(user_org.organization).data
         org['role'] = user_org.role
         return org

@@ -21,13 +21,19 @@ class UserOrganization(models.Model):
         unique_together = (('user', 'organization'), )
 
 def get_by_user(user_email):
-    return UserOrganization.objects.filter(user=user_email)
+    try:
+        return UserOrganization.objects.get(user=user_email)
+    except ObjectDoesNotExist:
+        return None
 
 def get_by_user_and_org(user_email, org_id):
     try:
         return UserOrganization.objects.get(user=user_email, organization=org_id)
     except ObjectDoesNotExist:
         return None
+
+def delete_by_user_and_org(user_email, org_id):
+    UserOrganization.objects.filter(user=user_email, organization=org_id).delete()
 
 def create_one(**kwargs):
     return UserOrganization(**kwargs)
