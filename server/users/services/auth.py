@@ -1,7 +1,6 @@
 import jwt
 from google.oauth2 import id_token
 from google.auth.transport import requests
-from django.core.exceptions import ObjectDoesNotExist
 from rest_framework import authentication
 from rest_framework import exceptions
 from users.models import users as users_dao
@@ -25,9 +24,8 @@ class ApiAuthentication(authentication.BaseAuthentication):
         except jwt.exceptions.InvalidSignatureError:
             raise exceptions.AuthenticationFailed('Incorrect auth header')
 
-        try:
-            user = users_dao.get_by_email(user_email)
-        except ObjectDoesNotExist:
+        user = users_dao.get_by_email(user_email)
+        if user is None:
             raise exceptions.AuthenticationFailed('No such user')
 
         return (user, None)
@@ -39,9 +37,8 @@ class ApiOrgAuthentication(authentication.BaseAuthentication):
         user, auth = self.api_auth.authenticate(request)
 
         org_id = request.path.split('/')[-1]
-        try:
-            user_org = user_orgs_dao.get_by_user_and_org(user.email, org_id)
-        except ObjectDoesNotExist:
+        user_org = user_orgs_dao.get_by_user_and_org(user.email, org_id)
+        if user_org is None:
             raise exceptions.AuthenticationFailed('User/Organization mismatch')
 
         if user_org.role != user_orgs_dao.Role.ADMIN.value:
@@ -56,6 +53,15 @@ def sign_in_with_google(family_name, given_name, email, google_token):
 
     persist_user(email, family_name, given_name)
     return generate_jwt_token(email)
+
+def get_gsuite_domain(google_token):
+    try:
+        idinfo = id_token.verify_oauth2_token(google_token, requests.Request(), CLIENT_ID)
+        return idinfo['hd'] if 'hd' in idinfo else None
+
+    except ValueError:
+        # Invalid token
+        return None
 
 def verify_google_user(google_token):
     try:

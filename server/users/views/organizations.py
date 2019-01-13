@@ -16,15 +16,13 @@ class OrganizationListView(generics.CreateAPIView):
         if users_service.has_org(user_email):
             return Response(
                 {'detail': 'One user can only belong to one organization.'},
-                status=status.HTTP_400_BAD_REQUEST
-            )
+                status=status.HTTP_400_BAD_REQUEST)
 
         new_org = orgs_service.create(request.data['name'], user_email)
         if new_org is None:
             return Response(
                 {'detail': 'Organization with this name already exists.'},
-                status=status.HTTP_400_BAD_REQUEST
-            )
+                status=status.HTTP_400_BAD_REQUEST)
         else:
             users_service.make_admin(user_email, new_org)
             return Response(OrganizationSerializer(new_org).data)

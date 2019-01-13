@@ -23,8 +23,7 @@ class GripListView(generics.ListCreateAPIView):
             msg = "Grip must be at most {0} charaters.".format(GRIP_SIZE_LIMIT)
             return Response(
                 {'detail': msg},
-                status=status.HTTP_400_BAD_REQUEST
-            )
+                status=status.HTTP_400_BAD_REQUEST)
 
         serializer = GripSerializer(data=request.data)
         creator = request.user.email
@@ -32,13 +31,11 @@ class GripListView(generics.ListCreateAPIView):
             new_grip = grips_dao.save(grips_dao.create_one(
                 title=serializer.validated_data['title'],
                 content=serializer.validated_data['content'],
-                created_by=creator
-            ))
+                created_by=creator))
             return Response(GripSerializer(new_grip).data)
         return Response(
             {'detail': "Invalid grip content"},
-            status=status.HTTP_400_BAD_REQUEST
-        )
+            status=status.HTTP_400_BAD_REQUEST)
 
 
 class GripDetailView(generics.DestroyAPIView):
@@ -52,14 +49,12 @@ class GripDetailView(generics.DestroyAPIView):
         if grip is None:
             return Response(
                 {'detail': "Grip does not exist."},
-                status=status.HTTP_400_BAD_REQUEST
-            )
+                status=status.HTTP_400_BAD_REQUEST)
 
         if (grip.created_by != request.user.email):
             return Response(
                 {'detail': "Cannot delete grip."},
-                status=status.HTTP_401_UNAUTHORIZED
-            )
+                status=status.HTTP_401_UNAUTHORIZED)
 
         grip.deleted = True
         grips_dao.save(grip)

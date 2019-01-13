@@ -11,7 +11,10 @@ class User(models.Model):
         return self.given_name + ':' + str(self.email)
 
 def get_by_email(email):
-    return User.objects.get(email=email)
+    try:
+        return User.objects.get(email=email)
+    except ObjectDoesNotExist:
+        return None
 
 def create_one(**kwargs):
     return User(**kwargs)
