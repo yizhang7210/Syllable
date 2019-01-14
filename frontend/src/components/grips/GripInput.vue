@@ -10,15 +10,16 @@
       <b-form-textarea
         class="content"
         v-model="content"
-        placeholder="TL;DR"
+        placeholder="TL;DR."
         :no-resize="true">
       </b-form-textarea>
       <div class="submit-line">
-        <div>
+        <div v-if="this.hasOrg">
           <input type="checkbox"
             v-model="isShared"/>
           <span class="is-shared"> Share with your organization </span>
         </div>
+        <div><!-- Empty div to keep the button to the right --></div>
         <b-button
           class="submit-button"
           v-on:click="this.onClick"
@@ -36,6 +37,9 @@ import http from '../../utils/http'
 
 export default {
   name: 'GripInput',
+  computed: {
+    hasOrg() { return this.$store.state.currentUser.organization !== null },
+  },
   data: () => ({
     title: '',
     content: '',
@@ -43,6 +47,9 @@ export default {
     isDisabled: false,
     isShared: true,
   }),
+  mounted() {
+    this.isShared = this.hasOrg;
+  },
   methods: {
     onClick: function() {
       if (!this.title || !this.content) {
