@@ -10,7 +10,6 @@ GRIP_SIZE_LIMIT = 365
 
 class GripListView(generics.ListCreateAPIView):
 
-    serializer_class = GripSerializer
     authentication_classes = (ApiAuthentication,)
 
     def list(self, request, *args, **kwargs):
@@ -20,6 +19,7 @@ class GripListView(generics.ListCreateAPIView):
         return Response(serializer.data)
 
     def create(self, request, *args, **kwargs):
+        user_email = request.user.email
         if len(request.data['content']) > GRIP_SIZE_LIMIT:
             msg = "Grip must be at most {0} charaters.".format(GRIP_SIZE_LIMIT)
             return Response(
@@ -29,14 +29,13 @@ class GripListView(generics.ListCreateAPIView):
         new_grip = grips_service.create(
             request.data['title'],
             request.data['content'],
-            request.user.email,
+            user_email,
             request.data['is_shared'])
-        return Response(GripSerializer(new_grip).data)
+        return Response(GripSerializer(new_grip, context={'user': user_email}).data)
 
 
 class GripDetailView(generics.DestroyAPIView):
 
-    serializer_class = GripSerializer
     authentication_classes = (ApiGripAuthentication,)
 
     def delete(self, request, *args, **kwargs):
@@ -48,7 +47,6 @@ class GripDetailView(generics.DestroyAPIView):
 
 class GripSearchView(generics.ListAPIView):
 
-    serializer_class = GripSerializer
     authentication_classes = (ApiAuthentication,)
 
     def list(self, request, *args, **kwargs):
