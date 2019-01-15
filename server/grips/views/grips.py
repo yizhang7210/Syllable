@@ -14,8 +14,9 @@ class GripListView(generics.ListCreateAPIView):
     authentication_classes = (ApiAuthentication,)
 
     def list(self, request, *args, **kwargs):
-        grips = grips_service.get_all_visible_by_user(request.user.email)
-        serializer = GripSerializer(grips, many=True)
+        user_email = request.user.email
+        grips = grips_service.get_all_visible_by_user(user_email)
+        serializer = GripSerializer(grips, many=True, context={'user': user_email})
         return Response(serializer.data)
 
     def create(self, request, *args, **kwargs):
@@ -44,6 +45,7 @@ class GripDetailView(generics.DestroyAPIView):
 
         return Response({'detail': 'success'})
 
+
 class GripSearchView(generics.ListAPIView):
 
     serializer_class = GripSerializer
@@ -51,6 +53,7 @@ class GripSearchView(generics.ListAPIView):
 
     def list(self, request, *args, **kwargs):
         serach_term = request.GET.get('q', '')
-        grips = grips_service.get_by_search(request.user.email, serach_term)
-        serializer = GripSerializer(grips, many=True)
+        user_email = request.user.email
+        grips = grips_service.get_by_search(user_email, serach_term)
+        serializer = GripSerializer(grips, many=True, context={'user': user_email})
         return Response(serializer.data)

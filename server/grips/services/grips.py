@@ -14,6 +14,10 @@ def get_by_id(grip_id):
 def get_by_search(user_email, search_term):
     return grips_dao.search(get_all_visible_by_user(user_email), search_term)
 
+def is_editable(user_email, grip):
+    return grip.created_by == user_email or \
+        user_service.is_admin(user_email, grip.owned_by)
+
 def delete(grip):
     grip.deleted = True
     grips_dao.save(grip)

@@ -2,7 +2,7 @@
   <div class="grip">
     <div class="title-line">
       <div class="title">{{ grip.title }}</div>
-      <div class="cross" v-if="this.canDelete" v-on:click="this.onDelete"> x </div>
+      <div class="cross" v-if="grip.is_editable" v-on:click="this.onDelete"> x </div>
     </div>
     <span class="content" v-html="this.linkify(grip.content)"></span>
   </div>
@@ -21,9 +21,6 @@ export default {
     isAdmin() {
       const currentUser = this.$store.state.currentUser;
       return currentUser.organization && currentUser.organization.role === 'ADMIN';
-    },
-    canDelete() {
-      return this.isAdmin || this.$store.state.currentUser.email === this.grip.created_by;
     },
   },
   methods: {

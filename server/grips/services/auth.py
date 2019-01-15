@@ -16,11 +16,7 @@ class ApiGripAuthentication(authentication.BaseAuthentication):
         if grip is None:
             raise exceptions.AuthenticationFailed('Grip does not exist')
 
-        if grip.created_by == user.email:
+        if grips_service.is_editable(user.email, grip):
             return (user, grip)
 
-        owning_org_id = grip.owned_by
-        if user_service.is_admin(user.email, owning_org_id):
-            return (user, grip)
-
-        raise exceptions.AuthenticationFailed('User not authoized')
+        raise exceptions.AuthenticationFailed('User not authorized')
