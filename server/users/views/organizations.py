@@ -13,7 +13,7 @@ class OrganizationListView(generics.CreateAPIView):
 
     def post(self, request, *args, **kwargs):
         user_email = request.user.email
-        if users_service.has_org(user_email):
+        if users_service.get_current_org(user_email) is not None:
             return Response(
                 {'detail': 'One user can only belong to one organization.'},
                 status=status.HTTP_400_BAD_REQUEST)

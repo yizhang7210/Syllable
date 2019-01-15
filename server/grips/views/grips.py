@@ -4,6 +4,7 @@ from rest_framework import generics
 from grips.serializers.grips import GripSerializer
 from grips.services import grips as grips_service
 from users.services.auth import ApiAuthentication
+from grips.services.auth import ApiGripAuthentication
 
 GRIP_SIZE_LIMIT = 365
 
@@ -35,21 +36,10 @@ class GripListView(generics.ListCreateAPIView):
 class GripDetailView(generics.DestroyAPIView):
 
     serializer_class = GripSerializer
-    authentication_classes = (ApiAuthentication,)
+    authentication_classes = (ApiGripAuthentication,)
 
     def delete(self, request, *args, **kwargs):
-        grip = grips_service.get_by_id(kwargs['id'])
-
-        if grip is None:
-            return Response(
-                {'detail': "Grip does not exist."},
-                status=status.HTTP_400_BAD_REQUEST)
-
-        if grip.created_by != request.user.email:
-            return Response(
-                {'detail': "Cannot delete grip."},
-                status=status.HTTP_401_UNAUTHORIZED)
-
+        grip = request.auth
         grips_service.delete(grip)
 
         return Response({'detail': 'success'})
