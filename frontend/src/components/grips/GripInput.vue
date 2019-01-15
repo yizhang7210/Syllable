@@ -15,9 +15,12 @@
       </b-form-textarea>
       <div class="submit-line">
         <div v-if="this.hasOrg">
-          <input type="checkbox"
+          <input id="is-shared"
+            type="checkbox"
             v-model="isShared"/>
-          <span class="is-shared"> Share with your organization </span>
+          <label for="is-shared" class="is-shared-label">
+            Share with your organization
+          </label>
         </div>
         <div><!-- Empty div to keep the button to the right --></div>
         <b-button
@@ -103,9 +106,10 @@ export default {
   align-items: center;
   justify-content: space-between;
   font-size: $content-font-size;
+  margin-top: $small-margin;
 }
-.is-shared {
-  margin-left: $tiny-margin;
+.is-shared-label {
+  margin: 0 $tiny-margin;
 }
 .error-message {
   color: red;
@@ -113,7 +117,6 @@ export default {
 }
 .submit-button {
   min-width: $button-width;
-  margin-top: $small-margin;
   border: none;
   background-color: $primary-color;
   color: $light-text-color;

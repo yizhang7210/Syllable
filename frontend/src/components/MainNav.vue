@@ -1,6 +1,6 @@
 <template>
   <b-navbar class="main-nav" type="dark" variant="info">
-    <b-navbar-brand href="#/home"> Syllable </b-navbar-brand>
+    <b-navbar-brand to="/home"> Syllable </b-navbar-brand>
     <div class="buttons">
       <div
         :style="{visibility: isSignedIn ? 'hidden' : 'visible'}"

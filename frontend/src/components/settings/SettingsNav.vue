@@ -1,7 +1,7 @@
 <template>
   <b-navbar class="settings-nav" type="light" variant="light">
     <b-navbar-nav>
-      <b-nav-item href="#/settings/organization">Organization</b-nav-item>
+      <b-nav-item to="/settings/organization">Organization</b-nav-item>
     </b-navbar-nav>
   </b-navbar>
 </template>
