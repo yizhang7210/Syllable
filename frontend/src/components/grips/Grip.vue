@@ -7,13 +7,15 @@
       <span class="content" v-html="this.linkify(grip.content)"></span>
     </div>
     <div class="action-bar" v-if="this.grip.is_editable && this.showActionBar">
-      <span v-if="!this.grip.is_shared" v-on:click="this.shareGrip">
-        <i class="fas fa-share"></i>
-      </span>
-      <span v-else v-on:click="this.unshareGrip">
-        <i class="fas fa-arrow-circle-left"></i>
-      </span>
       <span v-on:click="this.onDelete"><i class="fas fa-times"></i></span>
+      <div v-show="this.hasOrg">
+        <span v-if="!this.grip.is_shared" v-on:click="this.shareGrip">
+          <i class="fas fa-share"></i>
+        </span>
+        <span v-else v-on:click="this.unshareGrip">
+          <i class="fas fa-arrow-circle-left"></i>
+        </span>
+      </div>
 
     </div>
   </div>
@@ -29,6 +31,9 @@ export default {
     'grip',
   ],
   computed: {
+    hasOrg() {
+      return this.$store.state.currentUser.organization !== null
+    },
     isAdmin() {
       const currentUser = this.$store.state.currentUser;
       return currentUser.organization && currentUser.organization.role === 'ADMIN';
@@ -80,6 +85,7 @@ export default {
 }
 .action-bar {
   display: flex;
+  flex-direction: row-reverse;
   justify-content: space-between;
   color: $primary-color;
   cursor: pointer;
