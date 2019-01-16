@@ -48,12 +48,12 @@ export default {
       this.$store.dispatch('fetchAllGrips');
     },
     shareGrip: async function() {
-      await http.patch('v1/grips/' + this.grip.id, {is_shared: true});
+      await http.post('v1/grips/' + this.grip.id, {share: true});
       this.$store.dispatch('fetchAllGrips');
       this.showActionBar = false;
     },
     unshareGrip: async function() {
-      await http.patch('v1/grips/' + this.grip.id, {is_shared: false});
+      await http.post('v1/grips/' + this.grip.id, {share: false});
       this.$store.dispatch('fetchAllGrips');
       this.showActionBar = false;
     },

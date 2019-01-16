@@ -1,10 +1,10 @@
 from rest_framework.response import Response
-from rest_framework.generics import RetrieveAPIView
+from rest_framework.views import APIView
 from users.serializers.users import UserSerializer
 from users.services.auth import ApiAuthentication
 from users.services import users as users_service
 
-class UserDetailView(RetrieveAPIView):
+class UserDetailView(APIView):
 
     serializer_class = UserSerializer
     authentication_classes = (ApiAuthentication,)

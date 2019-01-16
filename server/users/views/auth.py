@@ -1,11 +1,11 @@
 from rest_framework.response import Response
-from rest_framework.generics import CreateAPIView
+from rest_framework.views import APIView
 from rest_framework import status
 from users.serializers.auth import GoogleSignInSerializer
 from users.services import auth as auth_service
 from users.services import users as users_service
 
-class GoogleSignInView(CreateAPIView):
+class GoogleSignInView(APIView):
 
     serializer_class = GoogleSignInSerializer
 

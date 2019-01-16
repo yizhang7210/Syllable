@@ -1,7 +1,6 @@
 from rest_framework import status
-from rest_framework import generics
-from rest_framework import mixins
 from rest_framework.response import Response
+from rest_framework.views import APIView
 from grips.serializers.grips import GripSerializer
 from grips.services import grips as grips_service
 from users.services.auth import ApiAuthentication
@@ -10,17 +9,16 @@ from grips.services.auth import ApiGripAuthentication
 
 GRIP_SIZE_LIMIT = 365
 
-class GripListView(generics.ListCreateAPIView):
-
+class GripListView(APIView):
     authentication_classes = (ApiAuthentication,)
 
-    def list(self, request, *args, **kwargs):
+    def get(self, request, *args, **kwargs):
         user_email = request.user.email
         grips = grips_service.get_all_visible_by_user(user_email)
         serializer = GripSerializer(grips, many=True, context={'user': user_email})
         return Response(serializer.data)
 
-    def create(self, request, *args, **kwargs):
+    def post(self, request, *args, **kwargs):
         user_email = request.user.email
         if len(request.data['content']) > GRIP_SIZE_LIMIT:
             msg = "Grip must be at most {0} charaters.".format(GRIP_SIZE_LIMIT)
@@ -36,8 +34,7 @@ class GripListView(generics.ListCreateAPIView):
         return Response(GripSerializer(new_grip, context={'user': user_email}).data)
 
 
-class GripDetailView(generics.UpdateAPIView, mixins.DestroyModelMixin):
-
+class GripDetailView(APIView):
     authentication_classes = (ApiGripAuthentication,)
 
     def delete(self, request, *args, **kwargs):
@@ -46,28 +43,25 @@ class GripDetailView(generics.UpdateAPIView, mixins.DestroyModelMixin):
 
         return Response({'detail': 'success'})
 
-    def patch(self, request, *args, **kwargs):
-        grip = request.auth
+    def post(self, request, *args, **kwargs):
         user_email = request.user.email
-        to_share = request.data['is_shared']
+        grip = request.auth
 
-        if to_share == grips_service.is_shared(grip):
-            serializer = GripSerializer(grip, context={'user': user_email})
-            return Response(serializer.data)
+        if 'share' in request.data:
+            grip = grips_service.set_sharing(user_email, grip, request.data['share'])
 
-        if to_share:
-            current_user_org = user_service.get_current_org(user_email)
-            new_grip = grips_service.share(grip, current_user_org.id)
-        else:
-            new_grip = grips_service.unshare(grip)
+        if 'vote' in request.data:
+            grip = grips_service.set_voting(user_email, grip, request.data['vote'])
 
-        serializer = GripSerializer(new_grip, context={'user': user_email})
+        if 'pin' in request.data:
+            grip = grips_service.set_pinned(user_email, grip, request.data['pin'])
+
+        serializer = GripSerializer(grip, context={'user': user_email})
 
         return Response(serializer.data)
 
 
-class GripSearchView(generics.ListAPIView):
-
+class GripSearchView(APIView):
     authentication_classes = (ApiAuthentication,)
 
     def list(self, request, *args, **kwargs):

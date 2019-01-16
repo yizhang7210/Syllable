@@ -18,6 +18,15 @@ def is_editable(user_email, grip):
     return grip.created_by == user_email or \
         user_service.is_admin(user_email, grip.owned_by)
 
+def set_sharing(user_email, grip, to_share):
+    if is_shared(grip) == to_share:
+        return grip
+    if to_share:
+        current_user_org = user_service.get_current_org(user_email)
+        return share(grip, current_user_org.id)
+    else:
+        return unshare(grip)
+
 def is_shared(grip):
     return grip.created_by != grip.owned_by
 
