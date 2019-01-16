@@ -6,7 +6,7 @@
       @input="this.onSearchInput"
       placeholder="Search">
     </b-form-input>
-    <div class="grip-container">
+    <div class="grips-container">
       <div v-for="grip in grips" :key="grip.id">
         <Grip :grip="grip"/>
       </div>
@@ -48,7 +48,7 @@ export default {
   max-width: $main-section-max-width;
   margin-top: $small-margin;
 }
-.grip-container {
+.grips-container {
   display: flex;
   flex: 1;
   flex-wrap: wrap;

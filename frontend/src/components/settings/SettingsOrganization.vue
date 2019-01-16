@@ -34,7 +34,7 @@
 
     </div>
 
-    <div v-if="!this.userOrg">
+    <div v-else>
       <div class="subtitle">
         You are not part of any Organization yet.
       </div>

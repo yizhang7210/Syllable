@@ -9,7 +9,7 @@ class GripSerializer(serializers.ModelSerializer):
 
     # pylint: disable=no-self-use
     def get_shared(self, grip):
-        return grip.created_by != grip.owned_by
+        return grips_service.is_shared(grip)
 
     def get_editable(self, grip):
         return grips_service.is_editable(self.context['user'], grip)

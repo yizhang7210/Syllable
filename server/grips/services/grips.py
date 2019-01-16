@@ -18,6 +18,17 @@ def is_editable(user_email, grip):
     return grip.created_by == user_email or \
         user_service.is_admin(user_email, grip.owned_by)
 
+def is_shared(grip):
+    return grip.created_by != grip.owned_by
+
+def unshare(grip):
+    grip.owned_by = grip.created_by
+    return grips_dao.save(grip)
+
+def share(grip, org_id):
+    grip.owned_by = org_id
+    return grips_dao.save(grip)
+
 def delete(grip):
     grip.deleted = True
     grips_dao.save(grip)

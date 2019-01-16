@@ -1,9 +1,11 @@
 from rest_framework import status
-from rest_framework.response import Response
 from rest_framework import generics
+from rest_framework import mixins
+from rest_framework.response import Response
 from grips.serializers.grips import GripSerializer
 from grips.services import grips as grips_service
 from users.services.auth import ApiAuthentication
+from users.services import users as user_service
 from grips.services.auth import ApiGripAuthentication
 
 GRIP_SIZE_LIMIT = 365
@@ -34,7 +36,7 @@ class GripListView(generics.ListCreateAPIView):
         return Response(GripSerializer(new_grip, context={'user': user_email}).data)
 
 
-class GripDetailView(generics.DestroyAPIView):
+class GripDetailView(generics.UpdateAPIView, mixins.DestroyModelMixin):
 
     authentication_classes = (ApiGripAuthentication,)
 
@@ -43,6 +45,25 @@ class GripDetailView(generics.DestroyAPIView):
         grips_service.delete(grip)
 
         return Response({'detail': 'success'})
+
+    def patch(self, request, *args, **kwargs):
+        grip = request.auth
+        user_email = request.user.email
+        to_share = request.data['is_shared']
+
+        if to_share == grips_service.is_shared(grip):
+            serializer = GripSerializer(grip, context={'user': user_email})
+            return Response(serializer.data)
+
+        if to_share:
+            current_user_org = user_service.get_current_org(user_email)
+            new_grip = grips_service.share(grip, current_user_org.id)
+        else:
+            new_grip = grips_service.unshare(grip)
+
+        serializer = GripSerializer(new_grip, context={'user': user_email})
+
+        return Response(serializer.data)
 
 
 class GripSearchView(generics.ListAPIView):
