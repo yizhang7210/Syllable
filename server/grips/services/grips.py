@@ -1,5 +1,12 @@
 from grips.models import grips as grips_dao
+from grips.models import user_grips as user_grips_dao
 from users.services import users as user_service
+
+def get_by_id(grip_id):
+    return grips_dao.get_by_id(grip_id)
+
+def get_by_search(user_email, search_term):
+    return grips_dao.search(get_all_visible_by_user(user_email), search_term)
 
 def get_all_visible_by_user(user_email):
     individual_grips = grips_dao.get_by_owner(user_email)
@@ -8,17 +15,18 @@ def get_all_visible_by_user(user_email):
         return individual_grips
     return individual_grips | grips_dao.get_by_owner(org.id)
 
-def get_by_id(grip_id):
-    return grips_dao.get_by_id(grip_id)
+def is_readable(grip, user_email):
+    return grip.created_by == user_email or \
+        user_service.is_in_org(user_email, grip.owned_by)
 
-def get_by_search(user_email, search_term):
-    return grips_dao.search(get_all_visible_by_user(user_email), search_term)
-
-def is_editable(user_email, grip):
+def is_editable(grip, user_email):
     return grip.created_by == user_email or \
         user_service.is_admin(user_email, grip.owned_by)
 
-def set_sharing(user_email, grip, to_share):
+def is_shared(grip):
+    return grip.created_by != grip.owned_by
+
+def set_sharing(grip, user_email, to_share):
     if is_shared(grip) == to_share:
         return grip
     if to_share:
@@ -27,8 +35,22 @@ def set_sharing(user_email, grip, to_share):
     else:
         return unshare(grip)
 
-def is_shared(grip):
-    return grip.created_by != grip.owned_by
+def has_voted_by(grip, user_email):
+    user_grip = user_grips_dao.get_by_user_and_grip(user_email, grip.id)
+    if user_grip is None:
+        return False
+    return user_grip.has_voted
+
+def get_votes(grip):
+    return user_grips_dao.get_votes_by_grip(grip.id)
+
+def set_voting(grip, user_email, to_vote):
+    if has_voted_by(grip, user_email) == to_vote:
+        return
+    user_grips_dao.upsert(user_grips_dao.create_one(
+        user=user_email,
+        grip=grip,
+        has_voted=to_vote))
 
 def unshare(grip):
     grip.owned_by = grip.created_by

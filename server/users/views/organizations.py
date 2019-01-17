@@ -2,14 +2,14 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from users.serializers.organizations import OrganizationSerializer
-from users.services.auth import ApiAuthentication, ApiOrgAuthentication
+from users.services.auth import ApiUserAuth, ApiOrgAuthentication
 from users.services import organizations as orgs_service
 from users.services import users as users_service
 
 class OrganizationListView(APIView):
 
     serializer_class = OrganizationSerializer
-    authentication_classes = (ApiAuthentication,)
+    authentication_classes = (ApiUserAuth,)
 
     def post(self, request, *args, **kwargs):
         user_email = request.user.email

@@ -3,14 +3,14 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from grips.serializers.grips import GripSerializer
 from grips.services import grips as grips_service
-from users.services.auth import ApiAuthentication
+from users.services.auth import ApiUserAuth
 from users.services import users as user_service
-from grips.services.auth import ApiGripAuthentication
+from grips.services.auth import ApiGripWriteAuth, ApiGripReadAuth
 
 GRIP_SIZE_LIMIT = 365
 
 class GripListView(APIView):
-    authentication_classes = (ApiAuthentication,)
+    authentication_classes = (ApiUserAuth,)
 
     def get(self, request, *args, **kwargs):
         user_email = request.user.email
@@ -35,7 +35,7 @@ class GripListView(APIView):
 
 
 class GripDetailView(APIView):
-    authentication_classes = (ApiGripAuthentication,)
+    authentication_classes = (ApiGripWriteAuth,)
 
     def delete(self, request, *args, **kwargs):
         grip = request.auth
@@ -43,18 +43,30 @@ class GripDetailView(APIView):
 
         return Response({'detail': 'success'})
 
-    def post(self, request, *args, **kwargs):
+    def patch(self, request, *args, **kwargs):
         user_email = request.user.email
         grip = request.auth
 
         if 'share' in request.data:
-            grip = grips_service.set_sharing(user_email, grip, request.data['share'])
+            grip = grips_service.set_sharing(grip, user_email, request.data['share'])
+
+        serializer = GripSerializer(grip, context={'user': user_email})
+
+        return Response(serializer.data)
+
+
+class GripActionView(APIView):
+    authentication_classes = (ApiGripReadAuth,)
+
+    def post(self, request, *args, **kwargs):
+        user_email = request.user.email
+        grip = request.auth
 
         if 'vote' in request.data:
-            grip = grips_service.set_voting(user_email, grip, request.data['vote'])
+            grips_service.set_voting(grip, user_email, request.data['vote'])
 
         if 'pin' in request.data:
-            grip = grips_service.set_pinned(user_email, grip, request.data['pin'])
+            grips_service.set_pinned(grip, user_email, request.data['pin'])
 
         serializer = GripSerializer(grip, context={'user': user_email})
 
@@ -62,7 +74,7 @@ class GripDetailView(APIView):
 
 
 class GripSearchView(APIView):
-    authentication_classes = (ApiAuthentication,)
+    authentication_classes = (ApiUserAuth,)
 
     def list(self, request, *args, **kwargs):
         serach_term = request.GET.get('q', '')

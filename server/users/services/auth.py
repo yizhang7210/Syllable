@@ -9,7 +9,7 @@ from users.models import user_organizations as user_orgs_dao
 CLIENT_ID = "524164616554-qmh6kkofkqi3lg9873npjv0hgar04gft.apps.googleusercontent.com"
 SECRET = 'syllable_secret'
 
-class ApiAuthentication(authentication.BaseAuthentication):
+class ApiUserAuth(authentication.BaseAuthentication):
     def authenticate(self, request):
         auth_header = request.META.get('HTTP_AUTHORIZATION')
         if not auth_header:
@@ -32,7 +32,7 @@ class ApiAuthentication(authentication.BaseAuthentication):
 
 class ApiOrgAuthentication(authentication.BaseAuthentication):
 
-    api_auth = ApiAuthentication()
+    api_auth = ApiUserAuth()
     def authenticate(self, request):
         user, _ = self.api_auth.authenticate(request)
 

@@ -1,5 +1,6 @@
 // Colors
 $primary-color: #005b86;
+$primary-color-light: #25adda;
 $light-text-color: white;
 $shared-grip: #b1ded5;
 $not-shared-grip: #ebc3b3;
@@ -14,7 +15,7 @@ $content-font-size: 13px;
 // Spacing:
 $main-section-max-width: 75%;
 
-$grip-width: 320px;
+$grip-width: 300px;
 $grip-height: 250px;
 $grip-grid-height: 540px; // 2 * grip-height + margin
 
@@ -30,3 +31,4 @@ $small-padding: 8px;
 
 // Others:
 $primary-border-radius: 10px;
+$small-border-radius: 2px;

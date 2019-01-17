@@ -26,9 +26,21 @@ def get_by_id(user_grip_id):
     except ObjectDoesNotExist:
         return None
 
+def get_votes_by_grip(grip_id):
+    return len(UserGrip.objects.filter(grip=grip_id, has_voted=True))
+
 def create_one(**kwargs):
     return UserGrip(**kwargs)
 
 def save(user_grip):
     user_grip.save()
     return user_grip
+
+def upsert(user_grip):
+    try:
+        existing = UserGrip.objects.get(user=user_grip.user, grip=user_grip.grip)
+        existing.is_pinned = user_grip.is_pinned
+        existing.has_voted = user_grip.has_voted
+        existing.save()
+    except ObjectDoesNotExist:
+        user_grip.save()

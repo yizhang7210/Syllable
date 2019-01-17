@@ -25,6 +25,7 @@ api_v1_patterns = [
     path('grips', grip_views.GripListView.as_view()),
     path('grips/search', grip_views.GripSearchView.as_view()),
     path('grips/<int:id>', grip_views.GripDetailView.as_view()),
+    path('grips/<int:id>/action', grip_views.GripActionView.as_view()),
 ]
 
 urlpatterns = [

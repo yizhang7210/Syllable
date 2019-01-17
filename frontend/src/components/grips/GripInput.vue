@@ -87,8 +87,6 @@ export default {
 .grip-input {
   display: flex;
   flex-direction: column;
-  width: $grip-width;
-  height: $grip-width;
 }
 .title {
   display: flex;
@@ -99,6 +97,8 @@ export default {
   display: flex;
   flex: 1;
   font-size: $content-font-size;
+  width: $grip-width;
+  height: $grip-height;
 }
 .submit-line {
   display: flex;
