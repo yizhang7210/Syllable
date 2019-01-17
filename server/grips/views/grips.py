@@ -76,7 +76,7 @@ class GripActionView(APIView):
 class GripSearchView(APIView):
     authentication_classes = (ApiUserAuth,)
 
-    def list(self, request, *args, **kwargs):
+    def get(self, request, *args, **kwargs):
         serach_term = request.GET.get('q', '')
         user_email = request.user.email
         grips = grips_service.get_by_search(user_email, serach_term)
