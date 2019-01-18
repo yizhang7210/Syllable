@@ -5,6 +5,12 @@ from users.models import organizations as orgs_dao
 def get_by_email(email):
     return users_dao.get_by_email(email)
 
+def get_all_in_org(user_email):
+    current_org = get_current_org(user_email)
+    if not current_org:
+        return []
+    return [user_org.user for user_org in user_orgs_dao.get_by_org(current_org.id)]
+
 def is_in_org(user_email, org_id):
     user_org = user_orgs_dao.get_by_user_and_org(user_email, org_id)
     return user_org is not None

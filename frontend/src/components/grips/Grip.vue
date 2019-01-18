@@ -33,7 +33,10 @@
       <div class="title">{{ grip.title }}</div>
       <span class="content"> {{grip.content}} </span>
       <span class="source" v-if="grip.source">
-        <a v-bind:href="grip.source"> go to source </a>
+        source: &nbsp;
+        <a v-if="validations.isLink(grip.source)"
+          v-bind:href="grip.source" target="_blank"> click here </a>
+        <span v-else> {{ grip.source }} </span>
       </span>
     </div>
   </div>
@@ -41,6 +44,7 @@
 
 <script>
 import http from '../../utils/http'
+import validations from '../../utils/validations'
 
 export default {
   name: 'Landing',
@@ -58,6 +62,7 @@ export default {
   },
   data: () => ({
     showActionBar: false,
+    validations: validations,
   }),
   methods: {
     deleteGrip: async function() {

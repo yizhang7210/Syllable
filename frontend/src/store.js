@@ -24,8 +24,8 @@ export default new Vuex.Store({
 	},
 	actions: {
 		async refreshUser(context) {
-			const users = await http.get('v1/users');
-			context.commit('updateUser', users.data[0]);
+			const users = await http.get('v1/users/me');
+			context.commit('updateUser', users.data);
 		},
 		async fetchAllGrips(context) {
 			const grips = await http.get('v1/grips');

@@ -13,13 +13,12 @@
         placeholder="TL;DR."
         :no-resize="true">
       </b-form-textarea>
-      <b-form-input
+      <vue-bootstrap-typeahead
         class="source"
-        v-model="source"
-        type="text"
         size="sm"
-        placeholder="a link to where this is from.">
-      </b-form-input>
+        v-model="source"
+        :data="this.userEmails"
+        placeholder="a link to where this is from."/>
     </div>
     <div class="submit-line">
       <b-button
@@ -43,11 +42,15 @@
 
 <script>
 import http from '../../utils/http'
+import VueBootstrapTypeahead from 'vue-bootstrap-typeahead'
 
 export default {
   name: 'GripInput',
   computed: {
     hasOrg() { return this.$store.state.currentUser.organization !== null },
+  },
+  components: {
+    VueBootstrapTypeahead
   },
   data: () => ({
     title: '',
@@ -56,9 +59,11 @@ export default {
     error: '',
     isDisabled: false,
     isShared: true,
+    userEmails: [],
   }),
   mounted() {
     this.isShared = this.hasOrg;
+    this.fetchUsers();
   },
   methods: {
     onClick: function() {
@@ -85,6 +90,10 @@ export default {
         this.isDisabled = false;
         this.error = error.response.data.detail;
       });
+    },
+    fetchUsers: async function() {
+      const response = await http.get('v1/users');
+      this.userEmails = response.data.map(u => u.email);
     }
   }
 }

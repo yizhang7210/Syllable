@@ -18,7 +18,8 @@ from api.views import grips as grip_views
 from django.urls import include, path
 
 api_v1_patterns = [
-    path('users', user_views.UserDetailView.as_view()),
+    path('users', user_views.UserListView.as_view()),
+    path('users/me', user_views.UserDetailView.as_view()),
     path('users/signin/google', user_views.GoogleSignInView.as_view()),
     path('organizations', user_views.OrganizationListView.as_view()),
     path('organizations/<int:id>', user_views.OrganizationDetailView.as_view()),

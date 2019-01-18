@@ -26,6 +26,9 @@ def get_by_user(user_email):
     except ObjectDoesNotExist:
         return None
 
+def get_by_org(org_id):
+    return UserOrganization.objects.filter(organization=org_id)
+
 def get_by_user_and_org(user_email, org_id):
     try:
         return UserOrganization.objects.get(user=user_email, organization=org_id)
