@@ -6,3 +6,4 @@ sudo pip install -r $(pwd)/deploy/requirements.txt
 npm run build-dev
 aws s3 sync dist s3://dev.syllable.acre.one --metadata-directive REPLACE \
 --cache-control max-age=3600
+aws cloudfront create-invalidation --distribution-id EQK07MC757ELW --paths '/*'
