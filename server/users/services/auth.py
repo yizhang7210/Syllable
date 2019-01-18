@@ -1,4 +1,5 @@
 import jwt
+from django.utils import timezone
 from google.oauth2 import id_token
 from google.auth.transport import requests
 from rest_framework import authentication
@@ -77,8 +78,10 @@ def verify_google_user(google_token):
         return None
 
 def persist_user(email, family_name, given_name):
+    print("yeah?")
     users_dao.upsert(users_dao.create_one(
-        email=email, family_name=family_name, given_name=given_name
+        email=email, family_name=family_name, given_name=given_name,
+        last_active_at=timezone.now()
     ))
 
 def generate_jwt_token(email):

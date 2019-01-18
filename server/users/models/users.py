@@ -6,6 +6,7 @@ class User(models.Model):
     family_name = models.CharField(max_length=100)
     given_name = models.CharField(max_length=100)
     created_at = models.DateTimeField(auto_now_add=True)
+    last_active_at = models.DateTimeField()
 
     def __str__(self):
         return self.given_name + ':' + str(self.email)
@@ -30,6 +31,7 @@ def upsert(user):
         existing = User.objects.get(email=user.email)
         existing.family_name = user.family_name
         existing.given_name = user.given_name
+        existing.last_active_at = user.last_active_at
         existing.save()
     except ObjectDoesNotExist:
         user.save()
