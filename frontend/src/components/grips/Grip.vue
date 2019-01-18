@@ -41,7 +41,6 @@
 
 <script>
 import http from '../../utils/http'
-import linkifyHtml from 'linkifyjs/html';
 
 export default {
   name: 'Landing',
@@ -83,13 +82,6 @@ export default {
       }
       this.$store.dispatch('fetchAllGrips');
     },
-    linkify: (text) => {
-      if (text.indexOf('http://') !== -1 || text.indexOf('https://') !== -1) {
-        return linkifyHtml(text);
-      } else {
-        return text;
-      }
-    }
   }
 }
 </script>
