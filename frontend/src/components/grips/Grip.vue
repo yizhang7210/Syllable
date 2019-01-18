@@ -2,14 +2,16 @@
   <div class="grip-container"
     @mouseover="showActionBar = true"
     @mouseleave="showActionBar = false">
-    <div class="left-bar">
-      <div v-bind:class="['votes', grip.has_voted ? 'voted' : 'not-voted']"
+
+    <div v-if="this.hasOrg" class="left-bar">
+      <div
+        v-bind:class="['votes', grip.has_voted ? 'voted' : 'not-voted']"
         v-on:click="this.toggleVote">
         {{ grip.votes }}
       </div>
       <div class="action-bar" v-if="this.grip.is_editable && this.showActionBar">
         <span v-on:click="this.deleteGrip"><i class="fas fa-times"></i></span>
-        <div v-show="this.hasOrg">
+        <div>
           <span v-if="!grip.is_shared" v-on:click="this.shareGrip">
             <i class="fas fa-share"></i>
           </span>
@@ -17,6 +19,13 @@
             <i class="fas fa-arrow-circle-left"></i>
           </span>
         </div>
+      </div>
+    </div>
+    <div v-else class="left-bar">
+      <div class="action-bar">
+        <span v-on:click="this.deleteGrip">
+          <i class="fas fa-times"></i>
+        </span>
       </div>
     </div>
 
@@ -101,7 +110,9 @@ export default {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  align-items: center;
   color: $primary-color;
+  margin: $tiny-margin;
 }
 .shared {
   background-color: $shared-grip;
@@ -131,7 +142,6 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: $tiny-margin;
   border-radius: $small-border-radius;
   width: 20px;
   cursor: pointer;
