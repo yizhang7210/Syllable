@@ -4,7 +4,7 @@ from django.core.exceptions import ObjectDoesNotExist
 
 class Grip(models.Model):
     title = models.CharField(max_length=100)
-    content = models.TextField()
+    content = models.TextField(blank=True)
     source = models.TextField(blank=True)
     deleted = models.BooleanField(default=False)
     created_by = models.EmailField(db_index=True) # No cross app reference

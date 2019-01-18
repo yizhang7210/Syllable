@@ -62,8 +62,8 @@ export default {
   },
   methods: {
     onClick: function() {
-      if (!this.title || !this.content) {
-        this.error = 'Please fill in both title and content.'
+      if (!this.title) {
+        this.error = 'You need a title.'
         return;
       }
       this.isDisabled = true;
