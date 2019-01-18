@@ -18,7 +18,7 @@
         v-model="source"
         type="text"
         size="sm"
-        placeholder="Where/Who is this from?">
+        placeholder="a link to where this is from.">
       </b-form-input>
     </div>
     <div class="submit-line">

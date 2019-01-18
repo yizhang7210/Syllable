@@ -31,7 +31,10 @@
 
     <div v-bind:class="['grip', this.grip.is_shared ? 'shared' : 'not-shared']">
       <div class="title">{{ grip.title }}</div>
-      <span class="content" v-html="this.linkify(grip.content)"></span>
+      <span class="content"> {{grip.content}} </span>
+      <span class="source" v-if="grip.source">
+        <a v-bind:href="grip.source"> go to source </a>
+      </span>
     </div>
   </div>
 </template>
@@ -133,10 +136,17 @@ export default {
   overflow: scroll;
 }
 .content {
+  flex: 1;
   white-space: pre-wrap;
   word-break: break-all;
   font-size: $content-font-size;
   overflow: scroll;
+}
+.source {
+  display: flex;
+  justify-content: center;
+  margin-top: $tiny-margin;
+  font-size: $content-font-size;
 }
 .votes {
   display: flex;
