@@ -29,6 +29,7 @@ class GripListView(APIView):
         new_grip = grips_service.create(
             request.data['title'],
             request.data['content'],
+            request.data['source'],
             user_email,
             request.data['is_shared'])
         return Response(GripSerializer(new_grip, context={'user': user_email}).data)

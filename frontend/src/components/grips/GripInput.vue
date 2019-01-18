@@ -13,22 +13,28 @@
         placeholder="TL;DR."
         :no-resize="true">
       </b-form-textarea>
-      <div class="submit-line">
-        <div v-if="this.hasOrg">
-          <input id="is-shared"
-            type="checkbox"
-            v-model="isShared"/>
-          <label for="is-shared" class="is-shared-label">
-            Share with your organization
-          </label>
-        </div>
-        <div><!-- Empty div to keep the button to the right --></div>
-        <b-button
-          class="submit-button"
-          v-on:click="this.onClick"
-          :disabled="this.isDisabled">
-          Post
-        </b-button>
+      <b-form-input
+        class="source"
+        v-model="source"
+        type="text"
+        size="sm"
+        placeholder="Where/Who is this from?">
+      </b-form-input>
+    </div>
+    <div class="submit-line">
+      <b-button
+        class="submit-button"
+        v-on:click="this.onClick"
+        :disabled="this.isDisabled">
+        Post
+      </b-button>
+      <div v-if="this.hasOrg">
+        <input id="is-shared"
+          type="checkbox"
+          v-model="isShared"/>
+        <label for="is-shared" class="is-shared-label">
+          Share with your organization
+        </label>
       </div>
     </div>
     <span class="error-message"> {{this.error}} </span>
@@ -46,6 +52,7 @@ export default {
   data: () => ({
     title: '',
     content: '',
+    source: '',
     error: '',
     isDisabled: false,
     isShared: true,
@@ -66,11 +73,13 @@ export default {
         content: this.content,
         created_by: this.$store.state.currentUser.email,
         is_shared: this.isShared,
+        source: this.source,
       }).then(() => {
         this.isDisabled = false;
         this.title = '';
         this.content = '';
         this.error = '';
+        this.source = '';
         this.$store.dispatch('fetchAllGrips');
       }).catch((error) => {
         this.isDisabled = false;
@@ -87,22 +96,25 @@ export default {
 .grip-input {
   display: flex;
   flex-direction: column;
+  width: $grip-width;
+  height: $grip-height;
 }
 .title {
   display: flex;
   font-weight: bold;
-  margin-bottom: $small-margin;
+  margin-bottom: $tiny-margin;
 }
 .content {
   display: flex;
   flex: 1;
   font-size: $content-font-size;
-  width: $grip-width;
-  height: $grip-height;
+}
+.source {
+  margin-top: $tiny-margin;
 }
 .submit-line {
   display: flex;
-  flex-direction: row;
+  flex-direction: row-reverse;
   align-items: center;
   justify-content: space-between;
   font-size: $content-font-size;

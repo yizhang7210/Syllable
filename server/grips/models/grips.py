@@ -5,6 +5,7 @@ from django.core.exceptions import ObjectDoesNotExist
 class Grip(models.Model):
     title = models.CharField(max_length=100)
     content = models.TextField()
+    source = models.TextField(blank=True)
     deleted = models.BooleanField(default=False)
     created_by = models.EmailField(db_index=True) # No cross app reference
     created_at = models.DateTimeField(auto_now_add=True)
@@ -37,7 +38,8 @@ def search(query_set, search_term):
             '''
             to_tsvector('english', concat_ws(' ',
                 title,
-                content
+                content,
+                source
             )) @@ to_tsquery('english', %s)
             '''
         ],

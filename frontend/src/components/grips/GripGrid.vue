@@ -1,11 +1,5 @@
 <template>
   <div class="grip-grid">
-    <b-form-input
-      class="search"
-      type="text"
-      @input="this.onSearchInput"
-      placeholder="Search">
-    </b-form-input>
     <div class="grips-container">
       <div v-for="grip in grips" :key="grip.id">
         <Grip :grip="grip"/>
@@ -25,15 +19,6 @@ export default {
   props: [
     'grips',
   ],
-  methods: {
-    onSearchInput: function(value) {
-      if (!value) {
-        this.$store.dispatch('fetchAllGrips');
-        return;
-      }
-      this.$store.dispatch('searchGrips', value);
-    }
-  }
 }
 </script>
 <style scoped lang="scss">
@@ -41,12 +26,6 @@ export default {
   display: flex;
   flex-direction: column;
   flex: 1;
-}
-.search {
-  display: flex;
-  align-self: center;
-  max-width: $main-section-max-width;
-  margin-top: $small-margin;
 }
 .grips-container {
   display: flex;

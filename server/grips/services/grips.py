@@ -64,10 +64,11 @@ def delete(grip):
     grip.deleted = True
     grips_dao.save(grip)
 
-def create(title, content, creator, is_shared):
+def create(title, content, source, creator, is_shared):
     owner = user_service.get_current_org(creator).id if is_shared else creator
     return grips_dao.save(grips_dao.create_one(
         title=title,
         content=content,
         created_by=creator,
+        source=source,
         owned_by=owner))

@@ -24,5 +24,5 @@ class GripSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Grip
-        fields = ('id', 'title', 'content', 'created_by', \
+        fields = ('id', 'title', 'content', 'created_by', 'source', \
             'is_shared', 'is_editable', 'has_voted', 'votes')

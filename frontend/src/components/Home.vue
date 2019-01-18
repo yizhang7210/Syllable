@@ -1,5 +1,12 @@
 <template>
   <div class="home">
+    <b-form-input
+      class="search"
+      type="text"
+      @input="this.onSearchInput"
+      placeholder="Search">
+    </b-form-input>
+
     <div class="grids">
       <GripFeed/>
       <GripGrid :grips="this.$store.state.gripsOnGrid"/>
@@ -27,9 +34,18 @@ export default {
     }
     this.$store.dispatch('fetchAllGrips');
   },
+  methods: {
+    onSearchInput: function(value) {
+      if (!value) {
+        this.$store.dispatch('fetchAllGrips');
+        return;
+      }
+      this.$store.dispatch('searchGrips', value);
+    }
+  }
 }
 </script>
-<style scoped>
+<style scoped lang="scss">
 .home {
   display: flex;
   flex-direction: column;
@@ -38,5 +54,11 @@ export default {
 .grids {
   display: flex;
   flex: 1;
+}
+.search {
+  display: flex;
+  align-self: center;
+  max-width: $main-section-max-width;
+  margin-top: $small-margin;
 }
 </style>
