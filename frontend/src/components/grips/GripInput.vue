@@ -18,7 +18,7 @@
         size="sm"
         v-model="source"
         :data="this.userEmails"
-        placeholder="a link to where this is from."/>
+        placeholder="Where/Who is this from?"/>
     </div>
     <div class="submit-line">
       <b-button
