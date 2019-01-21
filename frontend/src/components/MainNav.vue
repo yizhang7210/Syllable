@@ -1,6 +1,11 @@
 <template>
   <b-navbar class="main-nav" type="dark" variant="info">
-    <b-navbar-brand to="/home"> Syllable </b-navbar-brand>
+    <div>
+      <b-navbar-brand to="/home"> Syllable </b-navbar-brand>
+      <b-navbar-brand class="nav-button" to="/settings/organization" v-if="this.isSignedIn">
+        Invite your team!
+      </b-navbar-brand>
+    </div>
     <div class="buttons">
       <div
         :style="{visibility: isSignedIn ? 'hidden' : 'visible'}"
