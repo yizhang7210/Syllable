@@ -19,6 +19,7 @@ export default new Vuex.Store({
 			state.currentUser = null;
 		},
 		updateGripGrid(state, grips) {
+			grips.sort((a,b) => b.votes - a.votes);
 			state.gripsOnGrid = grips;
 		},
 	},
