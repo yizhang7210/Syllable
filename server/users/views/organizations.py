@@ -2,7 +2,7 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from users.serializers.organizations import OrganizationSerializer
-from users.services.auth import ApiUserAuth, ApiOrgAdminAuth, ApiOrgMemberAuth
+from users.middleware.auth import ApiUserAuth, ApiOrgAdminAuth, ApiOrgMemberAuth
 from users.services import organizations as orgs_service
 from users.services import users as users_service
 

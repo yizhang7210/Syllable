@@ -1,6 +1,6 @@
 from rest_framework import authentication
 from rest_framework import exceptions
-from users.services.auth import ApiUserAuth
+from users.middleware.auth import ApiUserAuth
 from users.services import users as user_service
 from grips.services import grips as grips_service
 

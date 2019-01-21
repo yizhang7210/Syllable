@@ -1,7 +1,7 @@
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from users.serializers.users import UserSerializer
-from users.services.auth import ApiUserAuth
+from users.middleware.auth import ApiUserAuth
 from users.services import users as users_service
 
 class UserDetailView(APIView):

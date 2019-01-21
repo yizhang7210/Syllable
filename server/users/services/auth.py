@@ -10,49 +10,6 @@ from users.services import users as users_service
 CLIENT_ID = "524164616554-qmh6kkofkqi3lg9873npjv0hgar04gft.apps.googleusercontent.com"
 SECRET = 'syllable_secret'
 
-class ApiUserAuth(authentication.BaseAuthentication):
-    def authenticate(self, request):
-        auth_header = request.META.get('HTTP_AUTHORIZATION')
-        if not auth_header:
-            raise exceptions.AuthenticationFailed('No auth header')
-
-        jwt_token = auth_header.split(' ')[-1] # Bearer xxxx
-        if not auth_header:
-            raise exceptions.AuthenticationFailed('Incorrect auth header')
-
-        try:
-            user_email = decode_jwt_token(jwt_token)['email']
-        except jwt.exceptions.InvalidSignatureError:
-            raise exceptions.AuthenticationFailed('Incorrect auth header')
-
-        user = users_dao.get_by_email(user_email)
-        if user is None:
-            raise exceptions.AuthenticationFailed('No such user')
-
-        return (user, None)
-
-class ApiOrgAdminAuth(authentication.BaseAuthentication):
-    api_auth = ApiUserAuth()
-    def authenticate(self, request):
-        user, _ = self.api_auth.authenticate(request)
-
-        org_id = request.path.split('/')[-1]
-        if not users_service.is_admin(user.email, org_id):
-            raise exceptions.AuthenticationFailed('User not authoized')
-
-        return (user, org_id)
-
-class ApiOrgMemberAuth(authentication.BaseAuthentication):
-    api_auth = ApiUserAuth()
-    def authenticate(self, request):
-        user, _ = self.api_auth.authenticate(request)
-
-        org_id = request.path.split('/')[-2]
-        if not users_service.is_in_org(user.email, org_id):
-            raise exceptions.AuthenticationFailed('User not authoized')
-
-        return (user, org_id)
-
 def sign_in_with_google(family_name, given_name, email, google_token):
     user_id = verify_google_user(google_token)
     if user_id is None:

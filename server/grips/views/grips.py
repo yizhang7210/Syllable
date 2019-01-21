@@ -3,9 +3,9 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from grips.serializers.grips import GripSerializer
 from grips.services import grips as grips_service
-from users.services.auth import ApiUserAuth
+from users.middleware.auth import ApiUserAuth
 from users.services import users as user_service
-from grips.services.auth import ApiGripWriteAuth, ApiGripReadAuth
+from grips.middleware.auth import ApiGripWriteAuth, ApiGripReadAuth
 
 GRIP_SIZE_LIMIT = 365
 
