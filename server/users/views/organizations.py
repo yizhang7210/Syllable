@@ -2,13 +2,11 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from users.serializers.organizations import OrganizationSerializer
-from users.services.auth import ApiUserAuth, ApiOrgAuthentication
+from users.services.auth import ApiUserAuth, ApiOrgAdminAuth, ApiOrgMemberAuth
 from users.services import organizations as orgs_service
 from users.services import users as users_service
 
 class OrganizationListView(APIView):
-
-    serializer_class = OrganizationSerializer
     authentication_classes = (ApiUserAuth,)
 
     def post(self, request, *args, **kwargs):
@@ -28,11 +26,17 @@ class OrganizationListView(APIView):
         return Response(OrganizationSerializer(new_org).data)
 
 class OrganizationDetailView(APIView):
-
-    serializer_class = OrganizationSerializer
-    authentication_classes = (ApiOrgAuthentication,)
+    authentication_classes = (ApiOrgAdminAuth,)
 
     def patch(self, request, *args, **kwargs):
-        user_org = request.auth
-        org = orgs_service.update(user_org.organization.id, request.data)
+        org_id = request.auth
+        org = orgs_service.update(org_id, request.data)
         return Response(OrganizationSerializer(org).data)
+
+class OrganizationInviteView(APIView):
+    authentication_classes = (ApiOrgMemberAuth,)
+
+    def post(self, request, *args, **kwargs):
+        org_id = request.auth
+        org = orgs_service.invite(org_id, request.data['emails'])
+        return Response(status=status.HTTP_201_CREATED)

@@ -5,12 +5,15 @@
     </div>
 
     <div v-if="this.userOrg">
-      <div class="subtitle">
+      <div class="action">
         You are {{this.role}} of the Organization {{this.userOrg.name}}.
       </div>
+      <div class="title">
+        Access control
+      </div>
       <div v-if="this.isAdmin">
-        <div class="title">
-          Access control
+        <div class="subtitle">
+          Invite your organization
         </div>
         <div class="action">
           Give access to everyone with @
@@ -18,18 +21,41 @@
             v-model="orgDomain"
             class="org-input"
             type="text"
-            placeholder="yourcompany.com"
-            prefix="@">
+            placeholder="yourcompany.com">
           </b-form-input>
           emails.
+          <b-button
+            class="submit-button"
+            v-on:click="this.onUpdateDomain"
+            :disabled="this.submitting">
+            Update
+          </b-button>
         </div>
-        <b-button
-          class="submit-button"
-          v-on:click="this.onUpdateDomain"
-          :disabled="this.submitting">
-          Update
-        </b-button>
-        <span class="error-message"> {{this.error}} </span>
+        <span class="error-message"> {{this.orgError}} </span>
+        <span class="success-message"> {{this.orgSuccess}} </span>
+      </div>
+
+      <div>
+        <div class="subtitle">
+          Invite individuals
+        </div>
+        <div class="action">
+          with emails:
+          <b-form-input
+            v-model="inviteEmails"
+            class="email-input"
+            type="text"
+            placeholder="john@gmail.com, ann@hotmail.com">
+          </b-form-input>
+          <b-button
+            class="submit-button"
+            v-on:click="this.onEmailInvite"
+            :disabled="this.submitting">
+            Invite
+          </b-button>
+        </div>
+        <span class="error-message"> {{this.inviteError}} </span>
+        <span class="success-message"> {{this.inviteSuccess}} </span>
       </div>
 
     </div>
@@ -53,7 +79,8 @@
         :disabled="this.submitting">
         Create
       </b-button>
-      <span class="error-message"> {{this.error}} </span>
+      <span class="error-message"> {{this.createError}} </span>
+      <span class="success-message"> {{this.createSuccess}} </span>
     </div>
   </div>
 </template>
@@ -69,10 +96,16 @@ export default {
     role() { return this.isAdmin ? 'an Admin' : 'a member' },
   },
   data: () => ({
-    error: '',
+    orgError: '',
+    orgSuccess: '',
+    inviteError: '',
+    inviteSuccess: '',
+    createError: '',
+    createSuccess: '',
     newOrgName: '',
     orgDomain: '',
     submitting: false,
+    inviteEmails: '',
   }),
   mounted() {
     this.$store.dispatch('refreshUser');
@@ -86,11 +119,13 @@ export default {
       }).then(() => {
         this.submitting = false;
         this.newOrgName = '';
-        this.error = '';
+        this.createError = '';
+        this.createSuccess = 'success!';
         this.$store.dispatch('refreshUser');
       }).catch((error) => {
         this.submitting = false;
-        this.error = error.response.data.detail;
+        this.createError = error.response.data.detail;
+        this.createSuccess = '';
       });
     },
     onUpdateDomain: function() {
@@ -99,11 +134,29 @@ export default {
         domain: this.orgDomain
       }).then(() => {
         this.submitting = false;
-        this.error = '';
+        this.orgError = '';
+        this.orgSuccess = 'success!';
         this.$store.dispatch('refreshUser');
       }).catch((error) => {
         this.submitting = false;
-        this.error = error.response.data.detail;
+        this.orgError = error.response.data.detail;
+        this.orgSuccess = '';
+      });
+    },
+    onEmailInvite: function() {
+      this.submitting = true;
+      http.post('v1/organizations/' + this.userOrg.id + '/invite', {
+        emails: this.inviteEmails.split(',').map(s => s.trim())
+      }).then(() => {
+        this.submitting = false;
+        this.inviteEmails = '';
+        this.inviteError = '';
+        this.inviteSuccess = 'success!';
+        this.$store.dispatch('refreshUser');
+      }).catch((error) => {
+        this.submitting = false;
+        this.inviteError = error.response.data.detail;
+        this.inviteSuccess = '';
       });
     }
   }
@@ -123,10 +176,15 @@ export default {
   margin-top: $large-margin;
 }
 .subtitle {
+  font-size: $subtitle-font-size;
   margin: $small-margin 0;
 }
 .org-input {
   max-width: 250px;
+  margin: $small-margin $tiny-margin;
+}
+.email-input {
+  max-width: 430px;
   margin: $small-margin;
 }
 .action {
@@ -136,11 +194,15 @@ export default {
 .submit-button {
   background-color: $primary-color !important;
   border-width: 0;
-  margin: $small-margin 0;
+  margin: 0 $large-margin;
+  min-width: $button-width;
 }
 .error-message {
-  color: red;
+  color: $error-message-color;
   font-size: $content-font-size;
-  margin-left: $small-margin;
+}
+.success-message {
+  color: $success-message-color;
+  font-size: $content-font-size;
 }
 </style>

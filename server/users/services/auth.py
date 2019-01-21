@@ -5,7 +5,7 @@ from google.auth.transport import requests
 from rest_framework import authentication
 from rest_framework import exceptions
 from users.models import users as users_dao
-from users.models import user_organizations as user_orgs_dao
+from users.services import users as users_service
 
 CLIENT_ID = "524164616554-qmh6kkofkqi3lg9873npjv0hgar04gft.apps.googleusercontent.com"
 SECRET = 'syllable_secret'
@@ -31,21 +31,27 @@ class ApiUserAuth(authentication.BaseAuthentication):
 
         return (user, None)
 
-class ApiOrgAuthentication(authentication.BaseAuthentication):
-
+class ApiOrgAdminAuth(authentication.BaseAuthentication):
     api_auth = ApiUserAuth()
     def authenticate(self, request):
         user, _ = self.api_auth.authenticate(request)
 
         org_id = request.path.split('/')[-1]
-        user_org = user_orgs_dao.get_by_user_and_org(user.email, org_id)
-        if user_org is None:
-            raise exceptions.AuthenticationFailed('User/Organization mismatch')
-
-        if user_org.role != user_orgs_dao.Role.ADMIN.value:
+        if not users_service.is_admin(user.email, org_id):
             raise exceptions.AuthenticationFailed('User not authoized')
 
-        return (user, user_org)
+        return (user, org_id)
+
+class ApiOrgMemberAuth(authentication.BaseAuthentication):
+    api_auth = ApiUserAuth()
+    def authenticate(self, request):
+        user, _ = self.api_auth.authenticate(request)
+
+        org_id = request.path.split('/')[-2]
+        if not users_service.is_in_org(user.email, org_id):
+            raise exceptions.AuthenticationFailed('User not authoized')
+
+        return (user, org_id)
 
 def sign_in_with_google(family_name, given_name, email, google_token):
     user_id = verify_google_user(google_token)

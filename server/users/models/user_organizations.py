@@ -44,3 +44,12 @@ def create_one(**kwargs):
 def save(user_org):
     user_org.save()
     return user_org
+
+def upsert(user_org):
+    try:
+        existing = UserOrganization.objects.get(user=user_org.user,
+            organization=user_org.organization)
+        existing.role = user_org.role
+        existing.save()
+    except ObjectDoesNotExist:
+        user_org.save()
