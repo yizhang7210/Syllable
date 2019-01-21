@@ -20,7 +20,7 @@ def update(org_id, updated_data):
 
 def invite(invitor, org_id, emails):
     if not emails:
-        return;
+        return
     org = orgs_dao.get_by_id(org_id)
     for email in emails:
         user = users_dao.get_or_create(users_dao.create_one(email=email))

@@ -2,10 +2,7 @@ import jwt
 from django.utils import timezone
 from google.oauth2 import id_token
 from google.auth.transport import requests
-from rest_framework import authentication
-from rest_framework import exceptions
 from users.models import users as users_dao
-from users.services import users as users_service
 
 CLIENT_ID = "524164616554-qmh6kkofkqi3lg9873npjv0hgar04gft.apps.googleusercontent.com"
 SECRET = 'syllable_secret'

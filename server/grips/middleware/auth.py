@@ -1,7 +1,6 @@
 from rest_framework import authentication
 from rest_framework import exceptions
 from users.middleware.auth import ApiUserAuth
-from users.services import users as user_service
 from grips.services import grips as grips_service
 
 class ApiGripWriteAuth(authentication.BaseAuthentication):

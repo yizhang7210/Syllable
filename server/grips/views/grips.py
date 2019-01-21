@@ -3,9 +3,8 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from grips.serializers.grips import GripSerializer
 from grips.services import grips as grips_service
-from users.middleware.auth import ApiUserAuth
-from users.services import users as user_service
 from grips.middleware.auth import ApiGripWriteAuth, ApiGripReadAuth
+from users.middleware.auth import ApiUserAuth
 
 GRIP_SIZE_LIMIT = 365
 
@@ -65,9 +64,6 @@ class GripActionView(APIView):
 
         if 'vote' in request.data:
             grips_service.set_voting(grip, user_email, request.data['vote'])
-
-        if 'pin' in request.data:
-            grips_service.set_pinned(grip, user_email, request.data['pin'])
 
         serializer = GripSerializer(grip, context={'user': user_email})
 

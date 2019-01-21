@@ -32,8 +32,8 @@ def set_sharing(grip, user_email, to_share):
     if to_share:
         current_user_org = user_service.get_current_org(user_email)
         return share(grip, current_user_org.id)
-    else:
-        return unshare(grip)
+
+    return unshare(grip)
 
 def has_voted_by(grip, user_email):
     user_grip = user_grips_dao.get_by_user_and_grip(user_email, grip.id)
@@ -64,8 +64,8 @@ def delete(grip):
     grip.deleted = True
     grips_dao.save(grip)
 
-def create(title, content, source, creator, is_shared):
-    owner = user_service.get_current_org(creator).id if is_shared else creator
+def create(title, content, source, creator, to_share):
+    owner = user_service.get_current_org(creator).id if to_share else creator
     return grips_dao.save(grips_dao.create_one(
         title=title,
         content=content,

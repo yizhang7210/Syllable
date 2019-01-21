@@ -47,7 +47,8 @@ def save(user_org):
 
 def get_or_create(user_org):
     try:
-        existing = UserOrganization.objects.get(user=user_org.user,
+        existing = UserOrganization.objects.get(
+            user=user_org.user,
             organization=user_org.organization)
         return existing
     except ObjectDoesNotExist:

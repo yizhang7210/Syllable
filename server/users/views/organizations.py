@@ -38,5 +38,5 @@ class OrganizationInviteView(APIView):
 
     def post(self, request, *args, **kwargs):
         org_id = request.auth
-        org = orgs_service.invite(request.user, org_id, request.data['emails'])
+        orgs_service.invite(request.user, org_id, request.data['emails'])
         return Response(status=status.HTTP_201_CREATED)
