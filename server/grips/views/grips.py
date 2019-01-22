@@ -56,9 +56,6 @@ class GripDetailView(APIView):
         if 'share' in request.data:
             grip = grips_service.set_sharing(grip, user_email, request.data['share'])
 
-        if 'pin' in request.data:
-            grip = grips_service.set_pin(grip, user_email, request.data['pin'])
-
         serializer = GripSerializer(grip, context={'user': user_email})
 
         return Response(serializer.data)
@@ -73,6 +70,9 @@ class GripActionView(APIView):
 
         if 'vote' in request.data:
             grips_service.set_voting(grip, user_email, request.data['vote'])
+
+        if 'pin' in request.data:
+            grips_service.set_pin(grip, user_email, request.data['pin'])
 
         serializer = GripSerializer(grip, context={'user': user_email})
 

@@ -10,6 +10,7 @@ export default new Vuex.Store({
 	state: {
 		currentUser: null,
 		gripsOnGrid: [],
+		pinnedGrips: [],
 	},
 	mutations: {
 		updateUser(state, userObject) {
@@ -22,6 +23,10 @@ export default new Vuex.Store({
 			grips.sort((a,b) => b.votes - a.votes);
 			state.gripsOnGrid = grips;
 		},
+		updatedPinnedGrips(state, grips) {
+			grips.sort((a,b) => b.votes - a.votes);
+			state.pinnedGrips = grips;
+		},
 	},
 	actions: {
 		async refreshUser(context) {
@@ -31,6 +36,10 @@ export default new Vuex.Store({
 		async fetchAllGrips(context) {
 			const grips = await http.get('v1/grips');
 			context.commit('updateGripGrid', grips.data);
+    },
+		async fetchPinnedGrips(context) {
+			const grips = await http.get('v1/grips?pinned=true');
+			context.commit('updatedPinnedGrips', grips.data);
     },
 		async searchGrips(context, searchTerm) {
 			const grips = await http.get('v1/grips/search?q=' + searchTerm);

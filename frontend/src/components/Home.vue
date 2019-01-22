@@ -1,15 +1,10 @@
 <template>
   <div class="home">
-    <b-form-input
-      class="search"
-      type="text"
-      @input="this.onSearchInput"
-      placeholder="Search">
-    </b-form-input>
-
     <div class="grids">
       <GripFeed/>
-      <GripGrid :grips="this.$store.state.gripsOnGrid"/>
+      <GripGrid
+        :allGrips="this.$store.state.gripsOnGrid"
+        :pinnedGrips="this.$store.state.pinnedGrips"/>
     </div>
   </div>
 </template>
@@ -24,25 +19,14 @@ export default {
     GripFeed,
     GripGrid,
   },
-  data: () => ({
-    grips: []
-  }),
   mounted() {
     if (!this.$store.state.currentUser) {
       this.$router.push('/landing');
       return;
     }
     this.$store.dispatch('fetchAllGrips');
+    this.$store.dispatch('fetchPinnedGrips');
   },
-  methods: {
-    onSearchInput: function(value) {
-      if (!value) {
-        this.$store.dispatch('fetchAllGrips');
-        return;
-      }
-      this.$store.dispatch('searchGrips', value);
-    }
-  }
 }
 </script>
 <style scoped lang="scss">
@@ -50,15 +34,10 @@ export default {
   display: flex;
   flex-direction: column;
   flex: 1;
+  max-width: 100vw;
 }
 .grids {
   display: flex;
   flex: 1;
-}
-.search {
-  display: flex;
-  align-self: center;
-  max-width: $main-section-max-width;
-  margin-top: $small-margin;
 }
 </style>
