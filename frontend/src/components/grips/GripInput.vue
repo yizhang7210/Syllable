@@ -5,7 +5,7 @@
         class="title"
         v-model="title"
         type="text"
-        placeholder="New Grip">
+        placeholder="What's new?">
       </b-form-input>
       <b-form-textarea
         class="content"
