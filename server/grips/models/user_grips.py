@@ -39,8 +39,8 @@ def save(user_grip):
 def upsert(user_grip):
     try:
         existing = UserGrip.objects.get(user=user_grip.user, grip=user_grip.grip)
-        existing.is_pinned = user_grip.is_pinned
-        existing.has_voted = user_grip.has_voted
+        existing.is_pinned = user_grip.is_pinned or existing.is_pinned
+        existing.has_voted = user_grip.has_voted or existing.has_voted
         existing.save()
     except ObjectDoesNotExist:
         user_grip.save()

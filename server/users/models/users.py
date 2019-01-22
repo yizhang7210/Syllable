@@ -29,9 +29,9 @@ def insert_many(users):
 def upsert(user):
     try:
         existing = User.objects.get(email=user.email)
-        existing.family_name = user.family_name
-        existing.given_name = user.given_name
-        existing.last_active_at = user.last_active_at
+        existing.family_name = user.family_name or existing.family_name
+        existing.given_name = user.given_name or existing.given_name
+        existing.last_active_at = user.last_active_at or existing.last_active_at
         existing.save()
     except ObjectDoesNotExist:
         user.save()

@@ -15,7 +15,7 @@ class ApiGripWriteAuth(authentication.BaseAuthentication):
         if grip is None:
             raise exceptions.AuthenticationFailed('Grip does not exist')
 
-        if grips_service.is_editable(grip, user.email):
+        if grips_service.is_editable_by(grip, user.email):
             return (user, grip)
 
         raise exceptions.AuthenticationFailed('User not authorized')

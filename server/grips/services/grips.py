@@ -19,7 +19,7 @@ def is_readable(grip, user_email):
     return grip.created_by == user_email or \
         user_service.is_in_org(user_email, grip.owned_by)
 
-def is_editable(grip, user_email):
+def is_editable_by(grip, user_email):
     return grip.created_by == user_email or \
         user_service.is_admin(user_email, grip.owned_by)
 
@@ -41,6 +41,12 @@ def has_voted_by(grip, user_email):
         return False
     return user_grip.has_voted
 
+def is_pinned_by(grip, user_email):
+    user_grip = user_grips_dao.get_by_user_and_grip(user_email, grip.id)
+    if user_grip is None:
+        return False
+    return user_grip.is_pinned
+
 def get_votes(grip):
     return user_grips_dao.get_votes_by_grip(grip.id)
 
@@ -51,6 +57,12 @@ def set_voting(grip, user_email, to_vote):
         user=user_email,
         grip=grip,
         has_voted=to_vote))
+
+def set_pin(grip, user_email, to_pin):
+    user_grips_dao.upsert(user_grips_dao.create_one(
+        user=user_email,
+        grip=grip,
+        is_pinned=to_pin))
 
 def unshare(grip):
     grip.owned_by = grip.created_by

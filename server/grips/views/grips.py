@@ -12,10 +12,16 @@ class GripListView(APIView):
     authentication_classes = (ApiUserAuth,)
 
     def get(self, request, *args, **kwargs):
+        pinned = bool(request.GET.get('pinned', False))
         user_email = request.user.email
         grips = grips_service.get_all_visible_by_user(user_email)
         serializer = GripSerializer(grips, many=True, context={'user': user_email})
-        return Response(serializer.data)
+
+        response = serializer.data
+        if pinned:
+            response = [grip for grip in response if grip['is_pinned']]
+
+        return Response(response)
 
     def post(self, request, *args, **kwargs):
         user_email = request.user.email
@@ -49,6 +55,9 @@ class GripDetailView(APIView):
 
         if 'share' in request.data:
             grip = grips_service.set_sharing(grip, user_email, request.data['share'])
+
+        if 'pin' in request.data:
+            grip = grips_service.set_pin(grip, user_email, request.data['pin'])
 
         serializer = GripSerializer(grip, context={'user': user_email})
 

@@ -1,9 +1,7 @@
 <template>
   <div class="grip-grid">
     <div class="grips-container">
-      <div v-for="grip in grips" :key="grip.id">
-        <Grip :grip="grip"/>
-      </div>
+        <Grip v-for="grip in grips" :key="grip.id" :grip="grip"/>
     </div>
   </div>
 </template>
