@@ -3,25 +3,50 @@
     @mouseover="showActionBar = true"
     @mouseleave="showActionBar = false">
 
+    <!-- For People inside an Org -->
     <div v-if="this.hasOrg" class="left-bar">
-      <div
-        v-bind:class="['votes', grip.has_voted ? 'voted' : 'not-voted']"
-        v-on:click="this.toggleVote">
-        {{ grip.votes }}
-      </div>
-      <div class="action-bar" v-if="this.grip.is_editable && this.showActionBar">
-        <span v-on:click="this.deleteGrip"><i class="fas fa-times"></i></span>
-        <div>
-          <span v-if="!grip.is_shared" v-on:click="this.shareGrip">
-            <i class="fas fa-share"></i>
+      <div class="display-bar">
+        <div
+          v-bind:class="['votes', grip.has_voted ? 'voted' : 'not-voted']"
+          v-on:click="this.toggleVote">
+          {{ grip.votes }}
+        </div>
+        <div class="pin">
+          <span v-if="grip.is_pinned" v-on:click="this.unpinGrip">
+            <i class="fas fa-unlink"></i>
           </span>
-          <span v-else v-on:click="this.unshareGrip">
-            <i class="fas fa-arrow-circle-left"></i>
+          <span v-else v-on:click="this.pinGrip">
+            <i class="fas fa-thumbtack"></i>
           </span>
         </div>
       </div>
+
+      <div class="action-bar" v-if="this.grip.is_editable && this.showActionBar">
+        <span v-on:click="this.deleteGrip"><i class="fas fa-times"></i></span>
+        <div>
+          <span v-if="grip.is_shared" v-on:click="this.unshareGrip">
+            <i class="fas fa-arrow-circle-left"></i>
+          </span>
+          <span v-else v-on:click="this.shareGrip">
+            <i class="fas fa-share"></i>
+          </span>
+        </div>
+
+      </div>
     </div>
+
+    <!-- For People not in an Org -->
     <div v-else class="left-bar">
+      <div class="display-bar">
+        <div class="pin">
+          <span v-if="grip.is_pinned" v-on:click="this.unpinGrip">
+            <i class="fas fa-unlink"></i>
+          </span>
+          <span v-else v-on:click="this.pinGrip">
+            <i class="fas fa-thumbtack"></i>
+          </span>
+        </div>
+      </div>
       <div class="action-bar">
         <span v-on:click="this.deleteGrip">
           <i class="fas fa-times"></i>
@@ -87,6 +112,14 @@ export default {
       }
       this.$store.dispatch('fetchAllGrips');
     },
+    pinGrip: async function() {
+      await http.post('v1/grips/' + this.grip.id + '/action', {pin: true});
+      this.$store.dispatch('fetchAllGrips');
+    },
+    unpinGrip: async function() {
+      await http.post('v1/grips/' + this.grip.id + '/action', {pin: false});
+      this.$store.dispatch('fetchAllGrips');
+    }
   }
 }
 </script>
@@ -119,6 +152,11 @@ export default {
 }
 .not-shared {
   background-color: $not-shared-grip;
+}
+.display-bar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 .action-bar {
   display: flex;
@@ -161,5 +199,8 @@ export default {
   background-color: white;
   color: black;
   border: 1px solid black;
+}
+.pin {
+  margin-top: $tiny-margin;
 }
 </style>

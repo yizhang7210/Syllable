@@ -9,7 +9,7 @@ export default new Vuex.Store({
 	plugins: [createPersistedState({key: '__syllable'})],
 	state: {
 		currentUser: null,
-		gripsOnGrid: [],
+		mainGrips: [],
 		pinnedGrips: [],
 	},
 	mutations: {
@@ -19,11 +19,11 @@ export default new Vuex.Store({
 		clearUser(state) {
 			state.currentUser = null;
 		},
-		updateGripGrid(state, grips) {
+		updateMainGrips(state, grips) {
 			grips.sort((a,b) => b.votes - a.votes);
-			state.gripsOnGrid = grips;
+			state.mainGrips = grips;
 		},
-		updatedPinnedGrips(state, grips) {
+		updatePinnedGrips(state, grips) {
 			grips.sort((a,b) => b.votes - a.votes);
 			state.pinnedGrips = grips;
 		},
@@ -34,16 +34,21 @@ export default new Vuex.Store({
 			context.commit('updateUser', users.data);
 		},
 		async fetchAllGrips(context) {
-			const grips = await http.get('v1/grips');
-			context.commit('updateGripGrid', grips.data);
+			context.dispatch('fetchPinnedGrips');
+			context.dispatch('fetchUnpinnedGrips');
     },
 		async fetchPinnedGrips(context) {
 			const grips = await http.get('v1/grips?pinned=true');
-			context.commit('updatedPinnedGrips', grips.data);
+			context.commit('updatePinnedGrips', grips.data);
+    },
+		async fetchUnpinnedGrips(context) {
+			const grips = await http.get('v1/grips?pinned=false');
+			context.commit('updateMainGrips', grips.data);
     },
 		async searchGrips(context, searchTerm) {
 			const grips = await http.get('v1/grips/search?q=' + searchTerm);
-			context.commit('updateGripGrid', grips.data);
+			context.commit('updatePinnedGrips', []);
+			context.commit('updateMainGrips', grips.data);
 		}
 	}
 })

@@ -36,11 +36,12 @@ def save(user_grip):
     user_grip.save()
     return user_grip
 
-def upsert(user_grip):
-    try:
-        existing = UserGrip.objects.get(user=user_grip.user, grip=user_grip.grip)
-        existing.is_pinned = user_grip.is_pinned or existing.is_pinned
-        existing.has_voted = user_grip.has_voted or existing.has_voted
-        existing.save()
-    except ObjectDoesNotExist:
-        user_grip.save()
+def upsert(user_email, grip, **kwargs):
+    user_grip = get_by_user_and_grip(user_email, grip.id)
+    if user_grip is None:
+        user_grip = UserGrip(user=user_email, grip=grip)
+
+    for field in kwargs:
+        setattr(user_grip, field, kwargs[field])
+
+    user_grip.save()

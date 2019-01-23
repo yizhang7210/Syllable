@@ -12,7 +12,7 @@
     </div>
     <span class="section-title" v-if="this.showPinnedGrips"> Others </span>
     <div class="grip-grid">
-        <Grip v-for="grip in allGrips" :key="grip.id" :grip="grip"/>
+        <Grip v-for="grip in mainGrips" :key="grip.id" :grip="grip"/>
     </div>
   </div>
 </template>
@@ -26,23 +26,20 @@ export default {
     Grip,
   },
   props: [
-    'allGrips',
+    'mainGrips',
     'pinnedGrips',
   ],
-  data: () => ({
-    showPinnedGrips: false,
-  }),
-  mounted() {
-    this.showPinnedGrips = this.pinnedGrips.length > 0;
+  computed: {
+    showPinnedGrips() {
+      return this.pinnedGrips.length > 0
+    },
   },
   methods: {
     onSearchInput: function(value) {
       if (!value) {
-        this.showPinnedGrips = true;
         this.$store.dispatch('fetchAllGrips');
         return;
       }
-      this.showPinnedGrips = false;
       this.$store.dispatch('searchGrips', value);
     }
   },

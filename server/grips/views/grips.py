@@ -12,14 +12,13 @@ class GripListView(APIView):
     authentication_classes = (ApiUserAuth,)
 
     def get(self, request, *args, **kwargs):
-        pinned = bool(request.GET.get('pinned', False))
+        pinned = request.GET.get('pinned') == 'true'
         user_email = request.user.email
         grips = grips_service.get_all_visible_by_user(user_email)
         serializer = GripSerializer(grips, many=True, context={'user': user_email})
 
         response = serializer.data
-        if pinned:
-            response = [grip for grip in response if grip['is_pinned']]
+        response = [grip for grip in response if grip['is_pinned'] == pinned]
 
         return Response(response)
 

@@ -51,18 +51,10 @@ def get_votes(grip):
     return user_grips_dao.get_votes_by_grip(grip.id)
 
 def set_voting(grip, user_email, to_vote):
-    if has_voted_by(grip, user_email) == to_vote:
-        return
-    user_grips_dao.upsert(user_grips_dao.create_one(
-        user=user_email,
-        grip=grip,
-        has_voted=to_vote))
+    user_grip = user_grips_dao.upsert(user_email, grip, has_voted=to_vote)
 
 def set_pin(grip, user_email, to_pin):
-    user_grips_dao.upsert(user_grips_dao.create_one(
-        user=user_email,
-        grip=grip,
-        is_pinned=to_pin))
+    user_grip = user_grips_dao.upsert(user_email, grip, is_pinned=to_pin)
 
 def unshare(grip):
     grip.owned_by = grip.created_by

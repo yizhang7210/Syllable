@@ -3,7 +3,7 @@
     <div class="grids">
       <GripFeed/>
       <GripGrid
-        :allGrips="this.$store.state.gripsOnGrid"
+        :mainGrips="this.$store.state.mainGrips"
         :pinnedGrips="this.$store.state.pinnedGrips"/>
     </div>
   </div>
@@ -25,7 +25,6 @@ export default {
       return;
     }
     this.$store.dispatch('fetchAllGrips');
-    this.$store.dispatch('fetchPinnedGrips');
   },
 }
 </script>
