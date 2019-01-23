@@ -17,13 +17,14 @@
         class="source"
         size="sm"
         v-model="source"
+        ref="sourceInput"
         :data="this.userEmails"
         placeholder="Where/Who is this from?"/>
     </div>
     <div class="submit-line">
       <b-button
         class="submit-button"
-        v-on:click="this.onClick"
+        v-on:click="this.onPost"
         :disabled="this.isDisabled">
         Post
       </b-button>
@@ -66,7 +67,7 @@ export default {
     this.fetchUsers();
   },
   methods: {
-    onClick: function() {
+    onPost: function() {
       if (!this.title) {
         this.error = 'You need a title.'
         return;
@@ -85,6 +86,7 @@ export default {
         this.content = '';
         this.error = '';
         this.source = '';
+        this.$refs.sourceInput.inputValue = '' // hack for the typeahead
         this.$store.dispatch('fetchAllGrips');
       }).catch((error) => {
         this.isDisabled = false;
