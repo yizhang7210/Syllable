@@ -7,27 +7,39 @@
     <div v-if="this.hasOrg" class="left-bar">
       <div class="display-bar">
         <div
+          v-b-tooltip.hover title="UpVote me!"
           v-bind:class="['votes', grip.has_voted ? 'voted' : 'not-voted']"
           v-on:click="this.toggleVote">
           {{ grip.votes }}
         </div>
         <div class="pin">
-          <span v-if="grip.is_pinned" v-on:click="this.unpinGrip">
+          <span v-if="grip.is_pinned"
+            v-b-tooltip.hover title="Unpin me!"
+            v-on:click="this.unpinGrip">
             <i class="fas fa-unlink"></i>
           </span>
-          <span v-else v-on:click="this.pinGrip">
+          <span v-else
+            v-b-tooltip.hover title="Pin me!"
+            v-on:click="this.pinGrip">
             <i class="fas fa-thumbtack"></i>
           </span>
         </div>
       </div>
 
       <div class="action-bar" v-if="this.grip.is_editable && this.showActionBar">
-        <span v-on:click="this.deleteGrip"><i class="fas fa-times"></i></span>
+        <span v-on:click="this.deleteGrip"
+          v-b-tooltip.hover title="Delete me!">
+          <i class="fas fa-times"></i>
+        </span>
         <div>
-          <span v-if="grip.is_shared" v-on:click="this.unshareGrip">
+          <span v-if="grip.is_shared"
+            v-b-tooltip.hover title="Make private"
+            v-on:click="this.unshareGrip">
             <i class="fas fa-arrow-circle-left"></i>
           </span>
-          <span v-else v-on:click="this.shareGrip">
+          <span v-else
+            v-b-tooltip.hover title="Share with my organization"
+            v-on:click="this.shareGrip">
             <i class="fas fa-share"></i>
           </span>
         </div>
@@ -39,16 +51,21 @@
     <div v-else class="left-bar">
       <div class="display-bar">
         <div class="pin">
-          <span v-if="grip.is_pinned" v-on:click="this.unpinGrip">
+          <span v-if="grip.is_pinned"
+            v-b-tooltip.hover title="Unpin me!"
+            v-on:click="this.unpinGrip">
             <i class="fas fa-unlink"></i>
           </span>
-          <span v-else v-on:click="this.pinGrip">
+          <span v-else
+            v-b-tooltip.hover title="Pin me!"
+            v-on:click="this.pinGrip">
             <i class="fas fa-thumbtack"></i>
           </span>
         </div>
       </div>
       <div class="action-bar">
-        <span v-on:click="this.deleteGrip">
+        <span v-on:click="this.deleteGrip"
+          v-b-tooltip.hover title="Delete me!">
           <i class="fas fa-times"></i>
         </span>
       </div>
@@ -202,5 +219,6 @@ export default {
 }
 .pin {
   margin-top: $tiny-margin;
+  cursor: pointer;
 }
 </style>
