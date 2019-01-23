@@ -26,15 +26,16 @@ def delete_all():
 def insert_many(users):
     User.objects.bulk_create(users)
 
-def upsert(user):
-    try:
-        existing = User.objects.get(email=user.email)
-        existing.family_name = user.family_name or existing.family_name
-        existing.given_name = user.given_name or existing.given_name
-        existing.last_active_at = user.last_active_at or existing.last_active_at
-        existing.save()
-    except ObjectDoesNotExist:
-        user.save()
+def upsert(email, **kwargs):
+    user = get_by_email(email)
+    if user is None:
+        user = User(email=email)
+
+    for field in kwargs:
+        setattr(user, field, kwargs[field])
+
+    user.save()
+    return user
 
 def get_or_create(user):
     try:

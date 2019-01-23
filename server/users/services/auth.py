@@ -3,6 +3,7 @@ from django.utils import timezone
 from google.oauth2 import id_token
 from google.auth.transport import requests
 from users.models import users as users_dao
+from users.signals import users as user_signals
 
 CLIENT_ID = "524164616554-qmh6kkofkqi3lg9873npjv0hgar04gft.apps.googleusercontent.com"
 SECRET = 'syllable_secret'
@@ -12,7 +13,15 @@ def sign_in_with_google(family_name, given_name, email, google_token):
     if user_id is None:
         return None
 
-    persist_user(email, family_name, given_name)
+    existing_user = users_dao.get_by_email(email)
+    is_sign_up = existing_user is None or existing_user.last_active_at is None
+
+    user = users_dao.upsert(email, family_name=family_name,
+        given_name=given_name, last_active_at=timezone.now())
+
+    if is_sign_up:
+        user_signals.USER_SIGNED_UP.send_robust(sender=__name__, user=user)
+
     return generate_jwt_token(email)
 
 def get_gsuite_domain(google_token):
@@ -36,12 +45,6 @@ def verify_google_user(google_token):
     except ValueError:
         # Invalid token
         return None
-
-def persist_user(email, family_name, given_name):
-    users_dao.upsert(users_dao.create_one(
-        email=email, family_name=family_name, given_name=given_name,
-        last_active_at=timezone.now()
-    ))
 
 def generate_jwt_token(email):
     return jwt.encode({'email': email}, SECRET, algorithm='HS256')

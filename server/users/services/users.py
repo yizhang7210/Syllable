@@ -1,6 +1,7 @@
 from users.models import user_organizations as user_orgs_dao
 from users.models import users as users_dao
 from users.models import organizations as orgs_dao
+from users.signals import users as user_signals
 
 def get_by_email(email):
     return users_dao.get_by_email(email)
@@ -28,14 +29,16 @@ def get_current_org(user_email):
 
 
 def make_admin(user_email, org):
-    return join_org_with_role(user_email, org, user_orgs_dao.Role.ADMIN)
+    join_org_with_role(user_email, org, user_orgs_dao.Role.ADMIN)
 
 def join_org_with_role(user_email, org, role):
-    return user_orgs_dao.save(user_orgs_dao.create_one(
-        user=users_dao.get_by_email(user_email),
+    user = users_dao.get_by_email(user_email)
+    user_orgs_dao.save(user_orgs_dao.create_one(
+        user=user,
         organization=org,
         role=role.name
     ))
+    user_signals.USER_JOINED_ORG.send_robust(sender=__name__, user=user, org=org)
 
 def remove_user_from_org(user_email, org_id):
     user_orgs_dao.delete_by_user_and_org(user_email, org_id)
