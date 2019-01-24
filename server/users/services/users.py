@@ -18,7 +18,9 @@ def is_in_org(user_email, org_id):
 
 def is_admin(user_email, org_id):
     user_org = user_orgs_dao.get_by_user_and_org(user_email, org_id)
-    return user_org is not None and user_org.role == user_orgs_dao.Role.ADMIN
+    print(user_org)
+    print(user_org.role)
+    return user_org is not None and user_org.role == user_orgs_dao.Role.ADMIN.name
 
 def get_current_org(user_email):
     user_org = user_orgs_dao.get_by_user(user_email)

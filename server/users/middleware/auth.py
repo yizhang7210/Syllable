@@ -2,6 +2,7 @@ import jwt
 from rest_framework import authentication
 from rest_framework import exceptions
 from users.models import users as users_dao
+from users.models import organizations as orgs_dao
 from users.services import users as users_service
 from users.services import auth as auth_service
 
@@ -32,10 +33,14 @@ class ApiOrgAdminAuth(authentication.BaseAuthentication):
         user, _ = self.api_auth.authenticate(request)
 
         org_id = request.path.split('/')[-1]
+        print(user)
+        print(org_id)
         if not users_service.is_admin(user.email, org_id):
             raise exceptions.AuthenticationFailed('User not authoized')
 
-        return (user, org_id)
+        org = orgs_dao.get_by_id(org_id)
+
+        return (user, org)
 
 class ApiOrgMemberAuth(authentication.BaseAuthentication):
     api_auth = ApiUserAuth()
@@ -46,4 +51,6 @@ class ApiOrgMemberAuth(authentication.BaseAuthentication):
         if not users_service.is_in_org(user.email, org_id):
             raise exceptions.AuthenticationFailed('User not authoized')
 
-        return (user, org_id)
+        org = orgs_dao.get_by_id(org_id)
+
+        return (user, org)

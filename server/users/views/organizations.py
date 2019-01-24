@@ -29,14 +29,15 @@ class OrganizationDetailView(APIView):
     authentication_classes = (ApiOrgAdminAuth,)
 
     def patch(self, request, *args, **kwargs):
-        org_id = request.auth
-        org = orgs_service.update(org_id, request.data)
+        org = request.auth
+        if 'domain' in request.data:
+            org = orgs_service.change_domain(org, request.data['domain'])
         return Response(OrganizationSerializer(org).data)
 
 class OrganizationInviteView(APIView):
     authentication_classes = (ApiOrgMemberAuth,)
 
     def post(self, request, *args, **kwargs):
-        org_id = request.auth
-        orgs_service.invite(request.user, org_id, request.data['emails'])
+        org = request.auth
+        orgs_service.invite(request.user, org.id, request.data['emails'])
         return Response(status=status.HTTP_201_CREATED)

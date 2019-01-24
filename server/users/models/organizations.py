@@ -31,23 +31,13 @@ def get_by_domain(domain):
 def create_one(**kwargs):
     return Organization(**kwargs)
 
-def update(org, updated_data):
-    for field in updated_data:
-        if is_updatable(field):
-            setattr(org, field, updated_data[field])
-    return save(org)
-
-def is_updatable(field):
-    return field in ['name', 'domain']
-
 def upsert(org_name, **kwargs):
-    org = get_by_email(org_name)
+    org = get_by_name(org_name)
     if org is None:
         org = Organization(name=org_name)
 
     for field in kwargs:
-        if is_updatable(field):
-            setattr(org, field, kwargs[field])
+        setattr(org, field, kwargs[field])
 
     org.save()
     return org

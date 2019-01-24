@@ -8,12 +8,11 @@ def create(org_name, creator):
     if existing is not None:
         return None
 
-    new_org = orgs_dao.upsert(org_name, created_by=creator))
+    new_org = orgs_dao.upsert(org_name, created_by=creator)
     return new_org
 
-def update(org_id, updated_data):
-    org = orgs_dao.get_by_id(org_id)
-    return orgs_dao.update(org, updated_data)
+def change_domain(org, new_domain):
+    return orgs_dao.upsert(org.name, domain=new_domain)
 
 def invite(invitor, org_id, emails):
     if not emails:
