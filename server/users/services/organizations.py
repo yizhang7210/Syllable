@@ -8,10 +8,7 @@ def create(org_name, creator):
     if existing is not None:
         return None
 
-    new_org = orgs_dao.save(orgs_dao.create_one(
-        name=org_name,
-        created_by=creator
-    ))
+    new_org = orgs_dao.upsert(org_name, created_by=creator))
     return new_org
 
 def update(org_id, updated_data):

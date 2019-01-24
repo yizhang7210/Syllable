@@ -37,9 +37,17 @@ def update(org, updated_data):
             setattr(org, field, updated_data[field])
     return save(org)
 
-def save(org):
-    org.save()
-    return org
-
 def is_updatable(field):
     return field in ['name', 'domain']
+
+def upsert(org_name, **kwargs):
+    org = get_by_email(org_name)
+    if org is None:
+        org = Organization(name=org_name)
+
+    for field in kwargs:
+        if is_updatable(field):
+            setattr(org, field, kwargs[field])
+
+    org.save()
+    return org
