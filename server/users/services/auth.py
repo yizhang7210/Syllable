@@ -14,12 +14,12 @@ def sign_in_with_google(family_name, given_name, email, google_token):
         return None
 
     existing_user = users_dao.get_by_email(email)
-    is_sign_up = existing_user is None or existing_user.last_active_at is None
+    is_first_time = existing_user is None or existing_user.last_active_at is None
 
     user = users_dao.upsert(email, family_name=family_name,
         given_name=given_name, last_active_at=timezone.now())
 
-    if is_sign_up:
+    if is_first_time:
         user_signals.USER_SIGNED_UP.send_robust(sender=__name__, user=user)
 
     return generate_jwt_token(email)

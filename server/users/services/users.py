@@ -29,16 +29,16 @@ def get_current_org(user_email):
 
 
 def make_admin(user_email, org):
-    join_org_with_role(user_email, org, user_orgs_dao.Role.ADMIN)
+    join_org_as(user_email, org, user_orgs_dao.Role.ADMIN)
 
-def join_org_with_role(user_email, org, role):
+def join_org_as(user_email, org, role):
+    new_joiner = not is_in_org(user_email, org.id)
+
     user = users_dao.get_by_email(user_email)
-    user_orgs_dao.save(user_orgs_dao.create_one(
-        user=user,
-        organization=org,
-        role=role.name
-    ))
-    user_signals.USER_JOINED_ORG.send_robust(sender=__name__, user=user, org=org)
+    user_orgs_dao.upsert(user, org, role=role.name)
+
+    if new_joiner:
+        user_signals.USER_JOINED_ORG.send_robust(sender=__name__, user=user, org=org)
 
 def remove_user_from_org(user_email, org_id):
     user_orgs_dao.delete_by_user_and_org(user_email, org_id)
@@ -53,4 +53,4 @@ def update_org_info(user_email, user_domain):
 
     org_with_domain = orgs_dao.get_by_domain(user_domain)
     if org_with_domain is not None and not is_in_org(user_email, org_with_domain.id):
-        join_org_with_role(user_email, org_with_domain, user_orgs_dao.Role.MEMBER)
+        join_org_as(user_email, org_with_domain, user_orgs_dao.Role.MEMBER)

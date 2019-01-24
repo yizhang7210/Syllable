@@ -73,7 +73,7 @@
 
     <div v-bind:class="['grip', this.grip.is_shared ? 'shared' : 'not-shared']">
       <div class="title">{{ grip.title }}</div>
-      <span class="content"> {{grip.content}} </span>
+      <span class="content">{{grip.content}}</span>
       <span class="source" v-if="grip.source">
         source: &nbsp;
         <a v-if="validations.isLink(grip.source)"
@@ -95,7 +95,8 @@ export default {
   ],
   computed: {
     hasOrg() {
-      return this.$store.state.currentUser.organization !== null
+      return this.$store.state.currentUser &&
+        this.$store.state.currentUser.organization !== undefined
     },
     isAdmin() {
       const currentUser = this.$store.state.currentUser;

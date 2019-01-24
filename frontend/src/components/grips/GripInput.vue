@@ -48,7 +48,10 @@ import VueBootstrapTypeahead from 'vue-bootstrap-typeahead'
 export default {
   name: 'GripInput',
   computed: {
-    hasOrg() { return this.$store.state.currentUser.organization !== null },
+    hasOrg() {
+      return this.$store.state.currentUser &&
+        this.$store.state.currentUser.organization !== undefined
+    },
   },
   components: {
     VueBootstrapTypeahead

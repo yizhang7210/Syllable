@@ -45,6 +45,17 @@ def save(user_org):
     user_org.save()
     return user_org
 
+def upsert(user, org, **kwargs):
+    user_org = get_by_user_and_org(user.email, org.id)
+    if user_org is None:
+        user_org = UserOrganization(user=user, organization=org)
+
+    for field in kwargs:
+        setattr(user_org, field, kwargs[field])
+
+    user_org.save()
+    return user_org
+
 def get_or_create(user_org):
     try:
         existing = UserOrganization.objects.get(
