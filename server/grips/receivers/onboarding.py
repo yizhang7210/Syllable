@@ -1,6 +1,5 @@
 from django.dispatch import receiver
 from users.signals import users as user_signals
-from users.signals import organizations as org_signals
 from grips.services import grips as grips_service
 
 @receiver(user_signals.USER_SIGNED_UP)

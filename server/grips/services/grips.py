@@ -64,10 +64,10 @@ def set_sharing(grip, user_email, to_share):
     return unshare(grip)
 
 def set_voting(grip, user_email, to_vote):
-    user_grip = user_grips_dao.upsert(user_email, grip, has_voted=to_vote)
+    user_grips_dao.upsert(user_email, grip, has_voted=to_vote)
 
 def set_pin(grip, user_email, to_pin):
-    user_grip = user_grips_dao.upsert(user_email, grip, is_pinned=to_pin)
+    user_grips_dao.upsert(user_email, grip, is_pinned=to_pin)
 
 def share_with(grip, org_id):
     grip.owned_by = org_id
@@ -80,14 +80,13 @@ def unshare(grip):
 def create_user_guide(user_email):
     title = "Welcome to Syllable!"
     content = (
-    "1. This is a piece of knowledge, i.e. a Grip\n"
-    "2. <------ Over THERE is how you create a Grip\n"
-    "3. Pin/Delete on the left\n"
-    "4. Source of the grip comes from below\n"
-    "5. You only have 300 characters\n"
-    "6. Invite your team on the top left\n\n\n"
-    "And Enjoy!"
-    )
+        "1. This is a piece of knowledge, i.e. a Grip\n"
+        "2. <------ Over THERE is how you create a Grip\n"
+        "3. Pin/Delete on the left\n"
+        "4. Source of the grip comes from below\n"
+        "5. You only have 300 characters\n"
+        "6. Invite your team on the top left\n\n\n"
+        "And Enjoy!")
     source = "support@acre.one"
     grip = create(title, content, source, user_email, False)
     set_pin(grip, user_email, True)
@@ -95,13 +94,12 @@ def create_user_guide(user_email):
 def create_org_guide(user_email, org):
     title = "You made it to the Team!"
     content = (
-    "1. Now you can share Grips! (on the left)\n"
-    "2. And vote!\n"
-    "3. Green Grips are shared\n"
-    "4. Red ones are private\n"
-    "5. How about invite some more people?\n\n\n"
-    "Now. Get a Grip. :)"
-    )
+        "1. Now you can share Grips! (on the left)\n"
+        "2. And vote!\n"
+        "3. Green Grips are shared\n"
+        "4. Red ones are private\n"
+        "5. How about invite some more people?\n\n\n"
+        "Now. Get a Grip. :)")
     grip = grips_dao.save(grips_dao.create_one(
         title=title,
         content=content,

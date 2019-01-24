@@ -5,7 +5,6 @@ from grips.serializers.grips import GripSerializer
 from grips.services import grips as grips_service
 from grips.middleware.auth import ApiGripWriteAuth, ApiGripReadAuth
 from users.middleware.auth import ApiUserAuth
-from grips.receivers import onboarding
 
 GRIP_SIZE_LIMIT = 300
 
