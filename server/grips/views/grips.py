@@ -1,6 +1,7 @@
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from grips.receivers import onboarding
 from grips.serializers.grips import GripSerializer
 from grips.services import grips as grips_service
 from grips.middleware.auth import ApiGripWriteAuth, ApiGripReadAuth

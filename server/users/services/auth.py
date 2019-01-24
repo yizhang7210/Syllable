@@ -23,6 +23,7 @@ def sign_in_with_google(family_name, given_name, email, google_token):
         last_active_at=timezone.now())
 
     if is_first_time:
+        print('sending')
         user_signals.USER_SIGNED_UP.send_robust(sender=__name__, user=user)
 
     return generate_jwt_token(email)

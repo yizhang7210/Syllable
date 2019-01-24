@@ -86,7 +86,8 @@ def create_user_guide(user_email):
         "4. Source of the grip comes from below\n"
         "5. You only have 300 characters\n"
         "6. Invite your team on the top left\n\n\n"
-        "And Enjoy!")
+        "And Enjoy!"
+    )
     source = "support@acre.one"
     grip = create(title, content, source, user_email, False)
     set_pin(grip, user_email, True)
@@ -99,11 +100,8 @@ def create_org_guide(user_email, org):
         "3. Green Grips are shared\n"
         "4. Red ones are private\n"
         "5. How about invite some more people?\n\n\n"
-        "Now. Get a Grip. :)")
-    grip = grips_dao.save(grips_dao.create_one(
-        title=title,
-        content=content,
-        created_by=user_email,
-        source="support@acre.one",
-        owned_by=org.id))
+        "Now. Get a Grip. :)"
+    )
+    source = "support@acre.one"
+    grip = create(title, content, source, user_email, True)
     set_pin(grip, user_email, True)

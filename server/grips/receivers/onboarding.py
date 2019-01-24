@@ -4,6 +4,8 @@ from grips.services import grips as grips_service
 
 @receiver(user_signals.USER_SIGNED_UP)
 def on_user_signed_up(sender, **kwargs):
+    print('receiving')
+    print(kwargs['user'].email)
     grips_service.create_user_guide(kwargs['user'].email)
 
 @receiver(user_signals.USER_JOINED_ORG)
