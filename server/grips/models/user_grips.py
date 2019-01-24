@@ -32,10 +32,6 @@ def get_votes_by_grip(grip_id):
 def create_one(**kwargs):
     return UserGrip(**kwargs)
 
-def save(user_grip):
-    user_grip.save()
-    return user_grip
-
 def upsert(user_email, grip, **kwargs):
     user_grip = get_by_user_and_grip(user_email, grip.id)
     if user_grip is None:

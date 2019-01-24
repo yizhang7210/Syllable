@@ -41,10 +41,6 @@ def delete_by_user_and_org(user_email, org_id):
 def create_one(**kwargs):
     return UserOrganization(**kwargs)
 
-def save(user_org):
-    user_org.save()
-    return user_org
-
 def upsert(user, org, **kwargs):
     user_org = get_by_user_and_org(user.email, org.id)
     if user_org is None:
