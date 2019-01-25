@@ -3,7 +3,7 @@
     <b-form-input
       class="search"
       type="text"
-      @input="this.onSearchInput"
+      @input="this.debouncedSearch"
       placeholder="Search">
     </b-form-input>
     <span class="section-title" v-if="this.showPinnedGrips"> Pinned </span>
@@ -19,6 +19,7 @@
 
 <script>
 import Grip from './Grip'
+const _ = require('lodash');
 
 export default {
   name: 'GripGrid',
@@ -33,6 +34,9 @@ export default {
     showPinnedGrips() {
       return this.pinnedGrips.length > 0
     },
+  },
+  created() {
+    this.debouncedSearch = _.debounce(this.onSearchInput, 400);
   },
   methods: {
     onSearchInput: function(value) {
