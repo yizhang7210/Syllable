@@ -65,7 +65,6 @@ export default {
   display: flex;
   flex: 1;
   flex-wrap: wrap;
-  max-height: $grip-grid-height;
   overflow: scroll;
 }
 .section-title {
@@ -77,6 +76,6 @@ export default {
   display: flex;
   align-self: center;
   max-width: $main-section-max-width;
-  margin-top: $small-margin;
+  margin: $small-margin 0;
 }
 </style>
