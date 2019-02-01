@@ -27,7 +27,7 @@ export default {
   display: flex;
   flex-direction: column;
   align-self: flex-start;
-  margin: 0 $large-margin;
+  margin: 0 $big-margin;
   overflow: scroll;
 }
 </style>

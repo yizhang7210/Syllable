@@ -75,9 +75,8 @@
       <div class="title">{{ grip.title }}</div>
       <span class="content">{{grip.content}}</span>
       <span class="source" v-if="grip.source">
-        source: &nbsp;
         <a v-if="validations.isLink(grip.source)"
-          v-bind:href="grip.source" target="_blank"> click here </a>
+          v-bind:href="grip.source" target="_blank"> view source </a>
         <span v-else> {{ grip.source }} </span>
       </span>
     </div>
@@ -199,7 +198,8 @@ export default {
   display: flex;
   justify-content: center;
   margin-top: $tiny-margin;
-  font-size: $content-font-size;
+  font-size: $grip-title-font-size;
+  text-decoration: underline;
 }
 .votes {
   display: flex;

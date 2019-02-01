@@ -59,7 +59,7 @@ export default {
 .grip-slide {
   display: flex;
   overflow: scroll;
-  margin-right: $large-margin;
+  margin-right: $big-margin;
 }
 .grip-grid {
   display: flex;

@@ -173,7 +173,7 @@ export default {
 .title {
   display: flex;
   font-size: $section-title-font-size;
-  margin-top: $large-margin;
+  margin-top: $big-margin;
 }
 .subtitle {
   font-size: $subtitle-font-size;
@@ -194,7 +194,7 @@ export default {
 .submit-button {
   background-color: $primary-color !important;
   border-width: 0;
-  margin: 0 $large-margin;
+  margin: 0 $big-margin;
   min-width: $button-width;
 }
 .error-message {
