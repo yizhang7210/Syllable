@@ -185,14 +185,14 @@ export default {
   display: flex;
   font-weight: bold;
   margin-bottom: $tiny-margin;
-  overflow: scroll;
+  overflow: auto;
 }
 .content {
   flex: 1;
   white-space: pre-wrap;
   word-break: break-all;
   font-size: $content-font-size;
-  overflow: scroll;
+  overflow: auto;
 }
 .source {
   display: flex;

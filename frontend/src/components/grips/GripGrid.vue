@@ -58,14 +58,14 @@ export default {
 }
 .grip-slide {
   display: flex;
-  overflow: scroll;
+  overflow: auto;
   margin-right: $big-margin;
 }
 .grip-grid {
   display: flex;
   flex: 1;
   flex-wrap: wrap;
-  overflow: scroll;
+  overflow: auto;
 }
 .section-title {
   font-size: $grip-title-font-size;

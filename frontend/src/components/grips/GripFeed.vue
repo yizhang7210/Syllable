@@ -28,6 +28,6 @@ export default {
   flex-direction: column;
   align-self: flex-start;
   margin: 0 $big-margin;
-  overflow: scroll;
+  overflow: auto;
 }
 </style>
