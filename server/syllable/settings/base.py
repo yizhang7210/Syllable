@@ -30,6 +30,7 @@ if READ_DOT_ENV_FILE:
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'x(9h8htk+_j=56rnih)p117-6uooyp@78rpekekwn+anv!-kip'
+JWT_SECRET = 'syllable'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env.bool('DJANGO_DEBUG', False)

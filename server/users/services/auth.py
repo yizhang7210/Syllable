@@ -1,12 +1,14 @@
 import jwt
+import os
 from django.utils import timezone
+from django.conf import settings
 from google.oauth2 import id_token
 from google.auth.transport import requests
 from users.models import users as users_dao
 from users.signals import users as user_signals
 
 CLIENT_ID = "524164616554-qmh6kkofkqi3lg9873npjv0hgar04gft.apps.googleusercontent.com"
-SECRET = 'syllable_secret'
+SECRET = settings.JWT_SECRET
 
 def sign_in_with_google(family_name, given_name, email, google_token):
     user_id = verify_google_user(google_token)

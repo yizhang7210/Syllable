@@ -6,7 +6,6 @@ SENDGRID_API_KEY = 'SENDGRID_API_KEY'
 
 class EmailClient:
     def __init__(self):
-        print(os.environ.get(SENDGRID_API_KEY))
         self.sendgrid_api = sendgrid.SendGridAPIClient(apikey=os.environ.get(SENDGRID_API_KEY))
 
     def send_email(self, mail):

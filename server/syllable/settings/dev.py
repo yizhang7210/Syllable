@@ -1,6 +1,9 @@
 from .base import *
 import os
 
+SECRET_KEY = os.environ['DJANGO_SECRET_KEY']
+JWT_SECRET = os.environ['JWT_SECRET']
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
