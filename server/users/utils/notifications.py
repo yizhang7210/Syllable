@@ -1,11 +1,11 @@
 from users.utils import emails
 
 def notify_invite(invitor, org, to_emails):
-    from_email = 'noreply@acre.one'
+    from_email = 'noreply@getsyllable.ca'
     subject = 'You are invited by {0} to join {1}!'.format(
         invitor.given_name, org.name)
     content = 'You are now part of the {0} organization! Log in at {1}.'.format(
-        org.name, 'https://dev.syllable.acre.one')
+        org.name, 'https://getsyllable.ca')
 
     email_client = emails.EmailClient()
     for to_email in to_emails:

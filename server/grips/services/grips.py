@@ -88,7 +88,7 @@ def create_user_guide(user_email):
         "6. Invite your team on the top left\n\n\n"
         "And Enjoy!"
     )
-    source = "support@acre.one"
+    source = "support@getsyllable.ca"
     grip = create(title, content, source, user_email, False)
     set_pin(grip, user_email, True)
 
@@ -102,6 +102,6 @@ def create_org_guide(user_email, org):
         "5. How about invite some more people?\n\n\n"
         "Now. Get a Grip. :)"
     )
-    source = "support@acre.one"
+    source = "support@getsyllable.ca"
     grip = create(title, content, source, user_email, True)
     set_pin(grip, user_email, True)
