@@ -5,6 +5,5 @@ stdenv.mkDerivation rec {
   buildInputs = [
     python37Full
     python37Packages.pip
-	mongodb
   ];
 }

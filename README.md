@@ -1,5 +1,6 @@
 # Syllable
-A knowledge base that just works
+A simple, searchable, and shareable knowledge catalogue.  
+Never lose track of knowledge again.
 
-### Further Reading
-See the [Resources](./RESOURCES.md) document.
+### Contribute
+To contribute to Syllable, start [here](./docs/Contents.md).
