@@ -1,7 +1,7 @@
 # Syllable Overview
 
-### Background
 
+### Background
 Syllable was first inspired by my personal desire for an organized place to store
 and review my everyday learnings from reading and talking to people.
 
