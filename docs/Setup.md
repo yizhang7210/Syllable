@@ -26,11 +26,9 @@ to bring up the server at `localhost:8000`!
 ### Continuous Integration
 Continuous integration happens on Circle CI. Checkout the `.circleci/config.yml` for details.
 
-In short, every time `develop` branch advances, everything (both the server and
-frontend) gets rebuilt and automatically deployed to the staging/dev environment,
-accessible at `dev.getsyllable.ca`.  
-Every time `master` branch advances, everything gets built and deployed to
-production, accessible at `www.getsyllable.ca`.
+In short, every time `master` branch advances, everything (both the server and
+frontend) gets rebuilt and automatically deployed to production,
+accessible at `www.getsyllable.ca`.
 
 
 Note that the following environment variables are required for Circle CI jobs.
@@ -38,7 +36,7 @@ Note that the following environment variables are required for Circle CI jobs.
 - `SYLLABLE_ENV = DEPLOY` for CI specific configurations.
 
 
-### Staging + Production
+### Production
 
 ##### Server
 The server side consists of `RDS` (PostgreSQL) for database, `Elastic Beanstalk` for
@@ -51,7 +49,7 @@ variables to run:
 - `JWT_SECRET` used by jwt token.
 - `RDS_DB_NAME`, `RDS_HOSTNAME`, `RDS_PASSWORD`, `RDS_PORT` & `RDS_USERNAME` for DB connection.
 - `SENDGRID_API_KEY` for email integration with Sendgrid.
-- `SYLLABLE_ENV` would be `DEV` for staging and `PROD` for production.
+- `SYLLABLE_ENV` would be `PROD` for production.
 
 
 ##### Frontend
