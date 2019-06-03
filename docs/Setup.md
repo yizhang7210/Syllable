@@ -3,6 +3,7 @@
 ### Local
 
 ##### Server
+1. Make sure you have `psql` on your machine. For Mac, just do `brew install postgresql`.
 1. It's recommended to have `nix` from [here](https://nixos.org/nix/download.html`).
 1. You might as well install `nox` by doing `nix-env -i nox`.
 1. Make sure you have docker. Download from [here](https://www.docker.com/get-started).
