@@ -50,7 +50,8 @@ export default {
   computed: {
     hasOrg() {
       return this.$store.state.currentUser &&
-        this.$store.state.currentUser.organization !== undefined
+        this.$store.state.currentUser.organization !== undefined &&
+        this.$store.state.currentUser.organization !== null
     },
   },
   components: {
