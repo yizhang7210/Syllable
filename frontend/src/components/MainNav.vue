@@ -79,6 +79,7 @@ export default {
 <style scoped lang="scss">
 .main-nav {
   display: flex;
+  justify-content: space-between;
   background-color: $primary-color !important;
 }
 .buttons {

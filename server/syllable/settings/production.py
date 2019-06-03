@@ -15,5 +15,5 @@ DATABASES = {
     }
 }
 
-
+DEBUG = True
 ALLOWED_HOSTS = [".us-east-2.elasticbeanstalk.com", "localhost"]
