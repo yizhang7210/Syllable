@@ -10,6 +10,7 @@
 1. Under the `server` folder, get into your nix environment by doing `nix-shell syllable.nix`.
 1. Now, do `python -m venv venv` to get into python's virtualenv (only needed for first time).
 1. Activate the virtualenv by doing `. venv/bin/activate`.
+1. Install all the dependencies by doing `pip install -r requirements.txt`.
 1. Now let's bring up the database by doing `docker-compose up (-d)`.
 1. Open a new terminal window and repeat steps 4, 5, 6 to get into the right virtualenv.
 1. Finally run `./manage.py migrate` to bring DB schema up to date, then `./manage.py runserver`
