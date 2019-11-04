@@ -7,7 +7,7 @@ from grips.services import grips as grips_service
 from grips.middleware.auth import ApiGripWriteAuth, ApiGripReadAuth
 from users.middleware.auth import ApiUserAuth
 
-GRIP_SIZE_LIMIT = 300
+GRIP_SIZE_LIMIT = 3000000
 
 class GripListView(APIView):
     authentication_classes = (ApiUserAuth,)
